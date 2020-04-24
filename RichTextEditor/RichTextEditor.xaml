@@ -1,0 +1,187 @@
+﻿<UserControl x:Class="RichTextEditor.RichRTextEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RichTextEditor"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+             xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+             xmlns:utils="clr-namespace:Utils"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             >
+    <Grid>
+        <DockPanel>
+            <DockPanel.Resources>
+                <ControlTemplate x:Key="DemoRichControlTemplate" TargetType="{x:Type TextBoxBase}">
+                    <Border x:Name="border"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    Background="{TemplateBinding Background}"
+                    SnapsToDevicePixels="True">
+                        <ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" TargetName="border" Value="0.56" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </DockPanel.Resources>
+            <dxb:ToolBarControl x:Name="toolBar" DockPanel.Dock="Top" Caption="Standard" ShowDragWidget="True" FlowDirection="LeftToRight">
+            <dxb:BarCheckItem Name="bBold"
+                                  CategoryName="Format"
+                                  Content="_Bold"
+                                  Glyph="{dx:DXImage Image=Bold_16x16.png}"
+                                  KeyGesture="Ctrl+B"
+                                  IsChecked="{Binding ElementName=richControl, Path=IsBold, Mode=TwoWay}"
+                                  Description="Makes selected text and numbers bold. If the selection is already bold, clicking button removes bold formating." />
+            <dxb:BarCheckItem Name="bItalic"
+                                  CategoryName="Format"
+                                  Content="_Italic"
+                                  Glyph="{dx:DXImage Image=Italic_16x16.png}"
+                                  KeyGesture="Ctrl+I"
+                                  IsChecked="{Binding ElementName=richControl, Path=IsItalic, Mode=TwoWay}"
+                                  Description="Makes selected text and numbers italic. Is the selection is already italic, clicking button removes italic formating." />
+            <dxb:BarCheckItem Name="bUnderline"
+                                  CategoryName="Format"
+                                  Content="_Underline"
+                                  Glyph="{dx:DXImage Image=Underline_16x16.png}"
+                                  KeyGesture="Ctrl+U"
+                                  IsChecked="{Binding ElementName=richControl, Path=IsUnderline, Mode=TwoWay}"
+                                  Description="Underlines selected text and numbers. If the selection is already underlined, clicking button removes underlining." />
+            <dxb:BarItemLinkSeparator />
+
+                <dxb:BarCheckItem Name="bLeft"
+                                  CategoryName="Format"
+                                  Content="_Left"
+                                  GroupIndex="1"
+                                  Glyph="{dx:DXImage Image=AlignLeft_16x16.png}"
+                                  IsChecked="{Binding ElementName=richControl, Path=IsLeftAlignment, Mode=TwoWay}"
+                                  Description="Aligns the selected text to the left." />
+                <dxb:BarCheckItem Name="bCenter"
+                                  CategoryName="Format"
+                                  Content="_Center"
+                                  GroupIndex="1"
+                                  Glyph="{dx:DXImage Image=AlignCenter_16x16.png}"
+                                  IsChecked="{Binding ElementName=richControl, Path=IsCenterAlignment, Mode=TwoWay}"
+                                  Description="Centers the selected text." />
+                <dxb:BarCheckItem Name="bJustify"
+                                  CategoryName="Format"
+                                  Content="_Justify"
+                                  GroupIndex="1"
+                                  Glyph="{dx:DXImage Image=AlignJustify_16x16.png}"
+                                  IsChecked="{Binding ElementName=richControl, Path=IsJustifyAlignment, Mode=TwoWay}"
+                                  Description="Justifies the selected text." />
+
+                <dxb:BarCheckItem Name="bRight"
+                                  CategoryName="Format"
+                                  Content="_Right"
+                                  GroupIndex="1"
+                                  Glyph="{dx:DXImage Image=AlignRight_16x16.png}"
+                                  IsChecked="{Binding ElementName=richControl, Path=IsRightAlignment, Mode=TwoWay}"
+                                  Description="Aligns the selected text to the right." />
+                <dxb:BarItemLinkSeparator />
+            <dxb:BarCheckItem Name="bBullets"
+                                  CategoryName="Format"
+                                  Content="B_ullets"
+                                  Glyph="{dx:DXImage Image=ListBullets_16x16.png}"
+                                  Description="Adds bullets to or removes bullets from selected paragraphs."
+                                  IsChecked="{Binding ElementName=richControl, Path=IsList, Mode=TwoWay}" />
+                <dxb:BarCheckItem Name="bNumbers"
+                                  CategoryName="Format"
+                                  Content="N_umbers"
+                                  Glyph="{dx:DXImage Image=ListNumbers_16x16.png}"
+                                  Description="Adds Numbers to or removes Numbers from selected paragraphs."
+                                  IsChecked="{Binding ElementName=richControl, Path=IsNumbered, Mode=TwoWay}" />
+                <dxb:BarItemLinkSeparator />
+                <dxb:BarCheckItem Name="bLeftToRight"
+                                  CategoryName="ReadingDirection"
+                                  Content="LeftToRight"
+                                  Glyph="{dx:DXImage Image=ReadingDirectionLeftToRight_16x16.png}"
+                                  Description="Changes direction into left to right"
+                                  IsChecked="{Binding ElementName=richControl, Path=IsLeftToRight, Mode=TwoWay}" />
+                <dxb:BarCheckItem Name="bRightToLeft"
+                                  CategoryName="ReadingDirection"
+                                  Content="RightToLeft"
+                                  Glyph="{dx:DXImage Image=ReadingDirectionRightToLeft_16x16.png}"
+                                  Description="Changes direction into right to left"
+                                  IsChecked="{Binding ElementName=richControl, Path=IsRightToLeft, Mode=TwoWay}" />
+                <dxb:BarItemLinkSeparator />
+            <dxb:BarSplitButtonItem Name="bFontColor"
+                                        CategoryName="Format"
+                                        Content="Font _Color"
+                                        Glyph="{dx:DXImage Image=ChangeFontStyle_16x16.png}"
+                                        Hint="Font Color Dialog"
+                                        Description="Formats the selected text with the color you click."
+                                        ActAsDropDown="True">
+                <dxb:BarSplitButtonItem.PopupControl>
+                    <dxb:PopupControlContainer>
+                        <dxe:ColorEdit DefaultColor="Transparent"
+                                           EditValue="{Binding ElementName=richControl, Path=SelectionTextColor}"
+                                           DefaultColorButtonContent="No color"
+                                           ShowBorder="False"
+                                           CloseOwnerPopupOnClick="True" />
+                    </dxb:PopupControlContainer>
+                </dxb:BarSplitButtonItem.PopupControl>
+            </dxb:BarSplitButtonItem>
+                <dxb:BarSplitButtonItem Name="bBackgroundColor"
+                                        CategoryName="Format"
+                                        Content="Background _Color"
+                                        Glyph="{dx:DXImage Image=Highlight_16x16.png}"
+                                        Hint="Background Color Dialog"
+                                        Description="Formats the selected text Background with the color you click."
+                                        ActAsDropDown="True">
+                    <dxb:BarSplitButtonItem.PopupControl>
+                        <dxb:PopupControlContainer>
+                            <dxe:ColorEdit DefaultColor="Transparent"
+                                           EditValue="{Binding ElementName=richControl, Path=SelectionTextBackgroundColor}"
+                                           DefaultColorButtonContent="No color"
+                                           ShowBorder="False"
+                                           CloseOwnerPopupOnClick="True" />
+                        </dxb:PopupControlContainer>
+                    </dxb:BarSplitButtonItem.PopupControl>
+                </dxb:BarSplitButtonItem>
+                <dxb:BarItemLinkSeparator />
+                <dxb:BarEditItem Name="eFontFamily"
+                                 CategoryName="Format"
+                                 Content="_Font:"
+                                 EditWidth="{Binding RelativeSource={RelativeSource Self}, Path=(dx:ThemeManager.TreeWalker), Converter={local:EditWidthConverter EditWidth=150}}"
+                                 ClosePopupOnChangingEditValue="True"
+                                 Description="Changes the font family of the selected text."
+                                 EditValue="{Binding ElementName=richControl, Path=SelectionFontFamily, Mode=TwoWay}">
+                <dxb:BarEditItem.EditSettings>
+                    <dxe:FontEditSettings AutoComplete="True" ValidateOnTextInput="False" />
+                </dxb:BarEditItem.EditSettings>
+            </dxb:BarEditItem>
+            <dxb:BarEditItem Name="eFontSize"
+                                 CategoryName="Format"
+                                 Content="Font _Size:"
+                                 EditWidth="{Binding RelativeSource={RelativeSource Self}, Path=(dx:ThemeManager.TreeWalker), Converter={local:EditWidthConverter EditWidth=60}}"
+                                 Description="Changes the font size of the selected text."
+                                 EditValue="{Binding ElementName=richControl, Path=SelectionFontSize, Mode=TwoWay}">
+                <dxb:BarEditItem.EditSettings>
+                    <dxe:ComboBoxEditSettings x:Name="fontSizeSettings" PopupMaxHeight="250" IsTextEditable="False" ItemsSource="{Binding FontSizes}" />
+                </dxb:BarEditItem.EditSettings>
+            </dxb:BarEditItem>
+
+        </dxb:ToolBarControl>
+            <!--<RichTextBox x:Uid="m_RTB" x:Name="m_RTB" DockPanel.Dock="Bottom" 
+									 AcceptsTab="True" AcceptsReturn="True"
+									 HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Visible"
+									 SpellCheck.IsEnabled="True" Visibility="Visible">
+            <RichTextBox.Resources>
+                <Style x:Uid="Style_2" TargetType="{x:Type Paragraph}">
+                    <Setter x:Uid="Setter_8" Property="Margin" Value="0"/>
+                </Style>
+            </RichTextBox.Resources>
+        </RichTextBox>-->
+
+
+            <utils:RichControl x:Name="richControl" TextChanged="RtbEditor_TextChanged" BorderThickness="0,1,0,1" Template="{StaticResource DemoRichControlTemplate}" />
+
+
+        </DockPanel>
+    </Grid>
+</UserControl>

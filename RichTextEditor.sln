@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28917.181
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RichTextEditor", "RichTextEditor\RichTextEditor.csproj", "{14792BB8-EC87-4D40-B1F8-B3295B43F2E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.csproj", "{3414A8C7-BEB8-428D-BEAE-8A3B97177E4F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{14792BB8-EC87-4D40-B1F8-B3295B43F2E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14792BB8-EC87-4D40-B1F8-B3295B43F2E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14792BB8-EC87-4D40-B1F8-B3295B43F2E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14792BB8-EC87-4D40-B1F8-B3295B43F2E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3414A8C7-BEB8-428D-BEAE-8A3B97177E4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3414A8C7-BEB8-428D-BEAE-8A3B97177E4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3414A8C7-BEB8-428D-BEAE-8A3B97177E4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3414A8C7-BEB8-428D-BEAE-8A3B97177E4F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CC579699-9754-4E78-B98B-0CF366035DA2}
+	EndGlobalSection
+EndGlobal
