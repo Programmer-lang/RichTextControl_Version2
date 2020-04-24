@@ -244,12 +244,12 @@ namespace Utils {
             CutCommand = ApplicationCommands.Cut;
             SelectAllCommand = ApplicationCommands.SelectAll;
 
-            IsRightToLeft = true;
+          //  FlowDirection = FlowDirection.LeftToRight;
 
-            FlowDirection = FlowDirection.RightToLeft;
+            ReadingDirectionCore = FlowDirection.RightToLeft;
             TextAlignmentCore = TextAlignment.Right;
 
-            
+            IsRightToLeft = true;
 
             IsRightAlignment = true;
 
@@ -385,7 +385,11 @@ namespace Utils {
             if (IsLeftToRight)
             {
                 IsRightToLeft = false;
-              FlowDirection = FlowDirection.LeftToRight;
+                ReadingDirectionCore = FlowDirection.LeftToRight;
+                IsUpdating = true;
+                TextAlignmentCore = TextAlignment.Left;
+                IsRightAlignment = true;
+                IsUpdating = false;
             }
         }
 
@@ -395,8 +399,11 @@ namespace Utils {
             if (IsRightToLeft)
             {
                 IsLeftToRight = false;
-              FlowDirection = FlowDirection.RightToLeft;
-               // TextAlignmentCore = TextAlignment.Right;
+                ReadingDirectionCore = FlowDirection.RightToLeft;
+                IsUpdating = true;
+                TextAlignmentCore = TextAlignment.Right;
+                IsRightAlignment = true;
+                IsUpdating = false;
             }
         }
 
@@ -421,13 +428,13 @@ namespace Utils {
             IsSelectionEmpty = IsSelectionEmptyCore;
 
 
-            //IsRightAlignment = object.Equals(TextAlignmentCore, TextAlignment.Right);
-            //IsLeftAlignment = object.Equals(TextAlignmentCore, TextAlignment.Left);
-            //IsJustifyAlignment = object.Equals(TextAlignmentCore, TextAlignment.Justify);
-            //IsCenterAlignment = object.Equals(TextAlignmentCore, TextAlignment.Center);
+            IsRightAlignment = object.Equals(TextAlignmentCore, TextAlignment.Left);
+            IsLeftAlignment = object.Equals(TextAlignmentCore, TextAlignment.Right);
+            IsJustifyAlignment = object.Equals(TextAlignmentCore, TextAlignment.Justify);
+            IsCenterAlignment = object.Equals(TextAlignmentCore, TextAlignment.Center);
 
-            IsLeftToRight = object.Equals(FlowDirection, FlowDirection.LeftToRight);
-            IsRightToLeft = object.Equals(FlowDirection, FlowDirection.RightToLeft);
+            IsLeftToRight = object.Equals(ReadingDirectionCore, FlowDirection.RightToLeft);
+            IsRightToLeft = object.Equals(ReadingDirectionCore, FlowDirection.LeftToRight);
 
             IsBold = IsBoldCore;
             IsItalic = IsItalicCore;
@@ -523,48 +530,48 @@ namespace Utils {
         }
         protected TextAlignment TextAlignmentCore {
             get {
-                object value = Selection.GetPropertyValue(System.Windows.Documents.Paragraph.TextAlignmentProperty);
+                object value = Selection.GetPropertyValue(Paragraph.TextAlignmentProperty);//Selection.GetPropertyValue(System.Windows.Documents.Paragraph.TextAlignmentProperty);
                 return value == DependencyProperty.UnsetValue ? TextAlignment.Right : (TextAlignment)value;
             }
             set {
-                // Selection.ApplyPropertyValue(System.Windows.Documents.Paragraph.TextAlignmentProperty, value);
+                 Selection.ApplyPropertyValue(System.Windows.Documents.Paragraph.TextAlignmentProperty, value);
 
-                switch (value)
-                {
-                    case TextAlignment.Left:
-                        EditingCommands.AlignLeft.Execute(null, this);
-                        break;
-                    case TextAlignment.Right:
-                        EditingCommands.AlignRight.Execute(null, this);
-                        break;
-                    case TextAlignment.Center:
-                        EditingCommands.AlignCenter.Execute(null, this);
-                        break;
+                //switch (value)
+                //{
+                //    case TextAlignment.Left:
+                //        EditingCommands.AlignLeft.Execute(null, this);
+                //        break;
+                //    case TextAlignment.Right:
+                //        EditingCommands.AlignRight.Execute(null, this);
+                //        break;
+                //    case TextAlignment.Center:
+                //        EditingCommands.AlignCenter.Execute(null, this);
+                //        break;
 
-                    case TextAlignment.Justify:
-                        EditingCommands.AlignJustify.Execute(null, this);
-                        break;
-                    default:
-                        EditingCommands.AlignRight.Execute(null, this);
-                        break;
-                }
+                //    case TextAlignment.Justify:
+                //        EditingCommands.AlignJustify.Execute(null, this);
+                //        break;
+                //    default:
+                //        EditingCommands.AlignRight.Execute(null, this);
+                //        break;
+                //}
                 
 
             }
         }
 
-        //protected FlowDirection ReadingDirectionCore
-        //{
-        //    get
-        //    {
-        //        object value = FlowDirection;
-        //        return value == DependencyProperty.UnsetValue ? FlowDirection.RightToLeft : (FlowDirection)value;
-        //    }
-        //    set
-        //    {
-        //        FlowDirection = value;
-        //    }
-        //}
+        protected FlowDirection ReadingDirectionCore
+        {
+            get
+            {
+                object value = Selection.GetPropertyValue(Paragraph.FlowDirectionProperty);//Selection.GetPropertyValue(System.Windows.Documents.Paragraph.FlowDirectionProperty);
+                return value == DependencyProperty.UnsetValue ? FlowDirection.RightToLeft : (FlowDirection)value;
+            }
+            set
+            {
+                Selection.ApplyPropertyValue(System.Windows.Documents.Paragraph.FlowDirectionProperty, value);
+            }
+        }
 
         protected bool IsEmptyCore {
             get {
@@ -583,8 +590,8 @@ namespace Utils {
                // FlowDirection = FlowDirection.RightToLeft;
                 TextAlignmentCore = TextAlignment.Right;
 
-                IsRightAlignment = true;
-                // ReadingDirectionCore = FlowDirection.RightToLeft;
+                //IsRightAlignment = true;
+                 ReadingDirectionCore = FlowDirection.RightToLeft;
                 return true;
             }
         }

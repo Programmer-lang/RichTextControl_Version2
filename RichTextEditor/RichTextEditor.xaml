@@ -8,7 +8,7 @@
              xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
              xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
              xmlns:utils="clr-namespace:Utils"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" FlowDirection="RightToLeft"
              d:DesignHeight="450" d:DesignWidth="800"
              >
     <Grid>
@@ -29,51 +29,31 @@
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </DockPanel.Resources>
-            <dxb:ToolBarControl x:Name="toolBar" DockPanel.Dock="Top" Caption="Standard" ShowDragWidget="True" FlowDirection="LeftToRight">
-            <dxb:BarCheckItem Name="bBold"
-                                  CategoryName="Format"
-                                  Content="_Bold"
-                                  Glyph="{dx:DXImage Image=Bold_16x16.png}"
-                                  KeyGesture="Ctrl+B"
-                                  IsChecked="{Binding ElementName=richControl, Path=IsBold, Mode=TwoWay}"
-                                  Description="Makes selected text and numbers bold. If the selection is already bold, clicking button removes bold formating." />
-            <dxb:BarCheckItem Name="bItalic"
-                                  CategoryName="Format"
-                                  Content="_Italic"
-                                  Glyph="{dx:DXImage Image=Italic_16x16.png}"
-                                  KeyGesture="Ctrl+I"
-                                  IsChecked="{Binding ElementName=richControl, Path=IsItalic, Mode=TwoWay}"
-                                  Description="Makes selected text and numbers italic. Is the selection is already italic, clicking button removes italic formating." />
-            <dxb:BarCheckItem Name="bUnderline"
+            <dxb:ToolBarControl x:Name="toolBar" DockPanel.Dock="Top" Caption="Standard" ShowDragWidget="True" >
+                <dxb:BarCheckItem Name="bUnderline"
                                   CategoryName="Format"
                                   Content="_Underline"
                                   Glyph="{dx:DXImage Image=Underline_16x16.png}"
                                   KeyGesture="Ctrl+U"
                                   IsChecked="{Binding ElementName=richControl, Path=IsUnderline, Mode=TwoWay}"
                                   Description="Underlines selected text and numbers. If the selection is already underlined, clicking button removes underlining." />
-            <dxb:BarItemLinkSeparator />
 
-                <dxb:BarCheckItem Name="bLeft"
+                <dxb:BarCheckItem Name="bItalic"
                                   CategoryName="Format"
-                                  Content="_Left"
-                                  GroupIndex="1"
-                                  Glyph="{dx:DXImage Image=AlignLeft_16x16.png}"
-                                  IsChecked="{Binding ElementName=richControl, Path=IsLeftAlignment, Mode=TwoWay}"
-                                  Description="Aligns the selected text to the left." />
-                <dxb:BarCheckItem Name="bCenter"
+                                  Content="_Italic"
+                                  Glyph="{dx:DXImage Image=Italic_16x16.png}"
+                                  KeyGesture="Ctrl+I"
+                                  IsChecked="{Binding ElementName=richControl, Path=IsItalic, Mode=TwoWay}"
+                                  Description="Makes selected text and numbers italic. Is the selection is already italic, clicking button removes italic formating." />
+                <dxb:BarCheckItem Name="bBold"
                                   CategoryName="Format"
-                                  Content="_Center"
-                                  GroupIndex="1"
-                                  Glyph="{dx:DXImage Image=AlignCenter_16x16.png}"
-                                  IsChecked="{Binding ElementName=richControl, Path=IsCenterAlignment, Mode=TwoWay}"
-                                  Description="Centers the selected text." />
-                <dxb:BarCheckItem Name="bJustify"
-                                  CategoryName="Format"
-                                  Content="_Justify"
-                                  GroupIndex="1"
-                                  Glyph="{dx:DXImage Image=AlignJustify_16x16.png}"
-                                  IsChecked="{Binding ElementName=richControl, Path=IsJustifyAlignment, Mode=TwoWay}"
-                                  Description="Justifies the selected text." />
+                                  Content="_Bold"
+                                  Glyph="{dx:DXImage Image=Bold_16x16.png}"
+                                  KeyGesture="Ctrl+B"
+                                  IsChecked="{Binding ElementName=richControl, Path=IsBold, Mode=TwoWay}"
+                                  Description="Makes selected text and numbers bold. If the selection is already bold, clicking button removes bold formating." />
+
+                <dxb:BarItemLinkSeparator />
 
                 <dxb:BarCheckItem Name="bRight"
                                   CategoryName="Format"
@@ -82,6 +62,30 @@
                                   Glyph="{dx:DXImage Image=AlignRight_16x16.png}"
                                   IsChecked="{Binding ElementName=richControl, Path=IsRightAlignment, Mode=TwoWay}"
                                   Description="Aligns the selected text to the right." />
+                <dxb:BarCheckItem Name="bCenter"
+                                  CategoryName="Format"
+                                  Content="_Center"
+                                  GroupIndex="1"
+                                  Glyph="{dx:DXImage Image=AlignCenter_16x16.png}"
+                                  IsChecked="{Binding ElementName=richControl, Path=IsCenterAlignment, Mode=TwoWay}"
+                                  Description="Centers the selected text." />
+                <dxb:BarCheckItem Name="bLeft"
+                                  CategoryName="Format"
+                                  Content="_Left"
+                                  GroupIndex="1"
+                                  Glyph="{dx:DXImage Image=AlignLeft_16x16.png}"
+                                  IsChecked="{Binding ElementName=richControl, Path=IsLeftAlignment, Mode=TwoWay}"
+                                  Description="Aligns the selected text to the left." />
+                
+                <dxb:BarCheckItem Name="bJustify"
+                                  CategoryName="Format"
+                                  Content="_Justify"
+                                  GroupIndex="1"
+                                  Glyph="{dx:DXImage Image=AlignJustify_16x16.png}"
+                                  IsChecked="{Binding ElementName=richControl, Path=IsJustifyAlignment, Mode=TwoWay}"
+                                  Description="Justifies the selected text." />
+
+                
                 <dxb:BarItemLinkSeparator />
             <dxb:BarCheckItem Name="bBullets"
                                   CategoryName="Format"
@@ -96,18 +100,19 @@
                                   Description="Adds Numbers to or removes Numbers from selected paragraphs."
                                   IsChecked="{Binding ElementName=richControl, Path=IsNumbered, Mode=TwoWay}" />
                 <dxb:BarItemLinkSeparator />
-                <dxb:BarCheckItem Name="bLeftToRight"
-                                  CategoryName="ReadingDirection"
-                                  Content="LeftToRight"
-                                  Glyph="{dx:DXImage Image=ReadingDirectionLeftToRight_16x16.png}"
-                                  Description="Changes direction into left to right"
-                                  IsChecked="{Binding ElementName=richControl, Path=IsLeftToRight, Mode=TwoWay}" />
                 <dxb:BarCheckItem Name="bRightToLeft"
                                   CategoryName="ReadingDirection"
                                   Content="RightToLeft"
                                   Glyph="{dx:DXImage Image=ReadingDirectionRightToLeft_16x16.png}"
                                   Description="Changes direction into right to left"
                                   IsChecked="{Binding ElementName=richControl, Path=IsRightToLeft, Mode=TwoWay}" />
+                <dxb:BarCheckItem Name="bLeftToRight"
+                                  CategoryName="ReadingDirection"
+                                  Content="LeftToRight"
+                                  Glyph="{dx:DXImage Image=ReadingDirectionLeftToRight_16x16.png}"
+                                  Description="Changes direction into left to right"
+                                  IsChecked="{Binding ElementName=richControl, Path=IsLeftToRight, Mode=TwoWay}" />
+
                 <dxb:BarItemLinkSeparator />
             <dxb:BarSplitButtonItem Name="bFontColor"
                                         CategoryName="Format"
@@ -146,23 +151,21 @@
                 <dxb:BarItemLinkSeparator />
                 <dxb:BarEditItem Name="eFontFamily"
                                  CategoryName="Format"
-                                 Content="_Font:"
                                  EditWidth="{Binding RelativeSource={RelativeSource Self}, Path=(dx:ThemeManager.TreeWalker), Converter={local:EditWidthConverter EditWidth=150}}"
                                  ClosePopupOnChangingEditValue="True"
                                  Description="Changes the font family of the selected text."
                                  EditValue="{Binding ElementName=richControl, Path=SelectionFontFamily, Mode=TwoWay}">
                 <dxb:BarEditItem.EditSettings>
-                    <dxe:FontEditSettings AutoComplete="True" ValidateOnTextInput="False" />
+                    <dxe:FontEditSettings AutoComplete="True" ValidateOnTextInput="False" FlowDirection="RightToLeft"/>
                 </dxb:BarEditItem.EditSettings>
             </dxb:BarEditItem>
             <dxb:BarEditItem Name="eFontSize"
                                  CategoryName="Format"
-                                 Content="Font _Size:"
                                  EditWidth="{Binding RelativeSource={RelativeSource Self}, Path=(dx:ThemeManager.TreeWalker), Converter={local:EditWidthConverter EditWidth=60}}"
                                  Description="Changes the font size of the selected text."
-                                 EditValue="{Binding ElementName=richControl, Path=SelectionFontSize, Mode=TwoWay}">
+                                 EditValue="{Binding ElementName=richControl, Path=SelectionFontSize, Mode=TwoWay}" >
                 <dxb:BarEditItem.EditSettings>
-                    <dxe:ComboBoxEditSettings x:Name="fontSizeSettings" PopupMaxHeight="250" IsTextEditable="False" ItemsSource="{Binding FontSizes}" />
+                        <dxe:ComboBoxEditSettings x:Name="fontSizeSettings" PopupMaxHeight="250" IsTextEditable="False" FlowDirection="RightToLeft" ItemsSource="{Binding FontSizes}" />
                 </dxb:BarEditItem.EditSettings>
             </dxb:BarEditItem>
 
