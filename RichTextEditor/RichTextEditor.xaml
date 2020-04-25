@@ -90,13 +90,13 @@
             <dxb:BarCheckItem Name="bBullets"
                                   CategoryName="Format"
                                   Content="B_ullets"
-                                  Glyph="{dx:DXImage Image=ListBullets_16x16.png}"
+                                  Glyph="{dx:DXImage Image=ListBullets_RightToLeft_16x16.png}"
                                   Description="Adds bullets to or removes bullets from selected paragraphs."
                                   IsChecked="{Binding ElementName=richControl, Path=IsList, Mode=TwoWay}" />
                 <dxb:BarCheckItem Name="bNumbers"
                                   CategoryName="Format"
                                   Content="N_umbers"
-                                  Glyph="{dx:DXImage Image=ListNumbers_16x16.png}"
+                                  Glyph="{dx:DXImage Image=ListNumbers_RightToLeft_16x16.png}"
                                   Description="Adds Numbers to or removes Numbers from selected paragraphs."
                                   IsChecked="{Binding ElementName=richControl, Path=IsNumbered, Mode=TwoWay}" />
                 <dxb:BarItemLinkSeparator />
@@ -112,6 +112,20 @@
                                   Glyph="{dx:DXImage Image=ReadingDirectionLeftToRight_16x16.png}"
                                   Description="Changes direction into left to right"
                                   IsChecked="{Binding ElementName=richControl, Path=IsLeftToRight, Mode=TwoWay}" />
+
+                <dxb:BarItemLinkSeparator />
+                <dxb:BarButtonItem Name="bIndentIncrease"
+                                  CategoryName="Indent"
+                                  Content="Indent Increase"
+                                  Glyph="{dx:DXImage Image=IndentIncrease_RightToLeft_16x16.png}"
+                                  Description="increase indent" 
+                                  Command="{Binding ElementName=richControl, Path=IndentIncreaseCommand}"/>
+                <dxb:BarButtonItem Name="bIndentDecrease"
+                                  CategoryName="Indent"
+                                  Content="Indent Decrease"
+                                  Glyph="{dx:DXImage Image=IndentDecrease_RightToLeft_16x16.png}"
+                                  Description="decrease indent"
+                                  Command="{Binding ElementName=richControl, Path=IndentDecreaseCommand}" />
 
                 <dxb:BarItemLinkSeparator />
             <dxb:BarSplitButtonItem Name="bFontColor"
@@ -168,8 +182,19 @@
                         <dxe:ComboBoxEditSettings x:Name="fontSizeSettings" PopupMaxHeight="250" IsTextEditable="False" FlowDirection="RightToLeft" ItemsSource="{Binding FontSizes}" />
                 </dxb:BarEditItem.EditSettings>
             </dxb:BarEditItem>
+                <dxb:BarItemLinkSeparator />
+                <dxb:BarButtonItem Name="bIncreaseFontSize"
+                                  CategoryName="FontSize"
+                                  Glyph="{dx:DXImage Image=FontSizeIncrease_16x16.png}"
+                                  Description="increase font size"
+                                  Command="{Binding ElementName=richControl, Path=IncreaseFontSizeCommand}" />
+                <dxb:BarButtonItem Name="bDecreaseFontSize"
+                                  CategoryName="FontSize"
+                                  Glyph="{dx:DXImage Image=FontSizeDecrease_16x16.png}"
+                                  Description="decrease font size"
+                                  Command="{Binding ElementName=richControl, Path=DecreaseFontSizeCommand}" />
 
-        </dxb:ToolBarControl>
+            </dxb:ToolBarControl>
             <!--<RichTextBox x:Uid="m_RTB" x:Name="m_RTB" DockPanel.Dock="Bottom" 
 									 AcceptsTab="True" AcceptsReturn="True"
 									 HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Visible"
@@ -182,7 +207,7 @@
         </RichTextBox>-->
 
 
-            <utils:RichControl x:Name="richControl" TextChanged="RtbEditor_TextChanged" BorderThickness="0,1,0,1" Template="{StaticResource DemoRichControlTemplate}" />
+            <utils:RichControl x:Name="richControl" AcceptsTab="True" TextChanged="RtbEditor_TextChanged" BorderThickness="0,1,0,1" Template="{StaticResource DemoRichControlTemplate}"/>
 
 
         </DockPanel>

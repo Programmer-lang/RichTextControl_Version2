@@ -182,7 +182,7 @@ namespace RichTextEditor
             
         }
 
-
+        
     }
 
     public class EditWidthConverter : MarkupExtension, IValueConverter

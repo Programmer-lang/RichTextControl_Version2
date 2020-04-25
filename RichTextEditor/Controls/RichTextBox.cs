@@ -228,6 +228,12 @@ namespace Utils {
         #region commands
         public ICommand SelectAllCommand { get; set; }
         public ICommand ClearCommand { get; set; }
+
+        public ICommand IndentIncreaseCommand { get; set; }
+        public ICommand IndentDecreaseCommand { get; set; }
+        public ICommand IncreaseFontSizeCommand { get; set; }
+        public ICommand DecreaseFontSizeCommand { get; set; }
+
         public ICommand PrintCommand { get; set; }
         public ICommand CopyCommand { get; set; }
         public ICommand PasteCommand { get; set; }
@@ -238,6 +244,16 @@ namespace Utils {
         public RichControl() {
             ClearSelectionCommand = new DelegateCommand(ClearSelectionCommandExecute, CanClearSelectionCommandExecute);
             ClearCommand = new DelegateCommand(ClearCommandExecute, CanClearCommandExecute);
+
+            IndentIncreaseCommand = new DelegateCommand(IndentIncreaseCommandExecute, CanIndentIncreaseCommandExecute);
+            IndentDecreaseCommand = new DelegateCommand(IndentDecreaseCommandExecute, CanIndentDecreaseCommandExecute);
+            IncreaseFontSizeCommand = new DelegateCommand(IncreaseFontSizeCommandExecute, CanIncreaseFontSizeCommandExecute);
+            DecreaseFontSizeCommand = new DelegateCommand(DecreaseFontSizeCommandExecute, CanDecreaseFontSizeCommandExecute);
+
+
+
+
+
             PrintCommand = new DelegateCommand(PrintCommandExecute);
             CopyCommand = ApplicationCommands.Copy;
             PasteCommand = ApplicationCommands.Paste;
@@ -246,12 +262,12 @@ namespace Utils {
 
           //  FlowDirection = FlowDirection.LeftToRight;
 
-            ReadingDirectionCore = FlowDirection.RightToLeft;
-            TextAlignmentCore = TextAlignment.Right;
+           // ReadingDirectionCore = FlowDirection.RightToLeft;
+            //TextAlignmentCore = TextAlignment.Right;
 
-            IsRightToLeft = true;
+            //IsRightToLeft = true;
 
-            IsRightAlignment = true;
+            //IsRightAlignment = true;
 
         }
         
@@ -385,11 +401,14 @@ namespace Utils {
             if (IsLeftToRight)
             {
                 IsRightToLeft = false;
-                ReadingDirectionCore = FlowDirection.LeftToRight;
+               // ReadingDirectionCore = FlowDirection.LeftToRight;
                 IsUpdating = true;
                 TextAlignmentCore = TextAlignment.Left;
-                IsRightAlignment = true;
-                IsUpdating = false;
+                IsLeftAlignment = true;
+
+               // FlowDirection = FlowDirection.LeftToRight;
+                Selection.ApplyPropertyValue(System.Windows.Documents.Paragraph.FlowDirectionProperty, FlowDirection.RightToLeft);
+                 IsUpdating = false;
             }
         }
 
@@ -399,11 +418,14 @@ namespace Utils {
             if (IsRightToLeft)
             {
                 IsLeftToRight = false;
-                ReadingDirectionCore = FlowDirection.RightToLeft;
+              //  ReadingDirectionCore = FlowDirection.RightToLeft;
                 IsUpdating = true;
                 TextAlignmentCore = TextAlignment.Right;
                 IsRightAlignment = true;
-                IsUpdating = false;
+                 IsUpdating = false;
+                //FlowDirection = FlowDirection.RightToLeft;
+                Selection.ApplyPropertyValue(System.Windows.Documents.Paragraph.FlowDirectionProperty, FlowDirection.LeftToRight);
+
             }
         }
 
@@ -426,15 +448,38 @@ namespace Utils {
         protected void UpdateSelectionProperties() {
             IsUpdating = true;
             IsSelectionEmpty = IsSelectionEmptyCore;
+            NumberMarkerStyle = NumberMarkerStyleCore;
+
+            if (FlowDirection == FlowDirection.LeftToRight)
+            {
+                IsRightAlignment = object.Equals(TextAlignmentCore, TextAlignment.Right);
+                IsLeftAlignment = object.Equals(TextAlignmentCore, TextAlignment.Left);
+                IsLeftToRight = object.Equals(TextAlignmentCore, TextAlignment.Left);
+                IsRightToLeft = object.Equals(TextAlignmentCore, TextAlignment.Right);
+            }
+            else
+            {
+                if (NumberMarkerStyle == TextMarkerStyle.None)
+                {
+                    IsRightAlignment = object.Equals(TextAlignmentCore, TextAlignment.Left);
+                    IsLeftAlignment = object.Equals(TextAlignmentCore, TextAlignment.Right);
+                    IsLeftToRight = object.Equals(TextAlignmentCore, TextAlignment.Right);
+                    IsRightToLeft = object.Equals(TextAlignmentCore, TextAlignment.Left);
+                }
+                else
+                {
+                    IsRightAlignment = object.Equals(TextAlignmentCore, TextAlignment.Right);
+                    IsLeftAlignment = object.Equals(TextAlignmentCore, TextAlignment.Left);
+                    IsLeftToRight = object.Equals(TextAlignmentCore, TextAlignment.Left);
+                    IsRightToLeft = object.Equals(TextAlignmentCore, TextAlignment.Right);
+                }
+            }
 
 
-            IsRightAlignment = object.Equals(TextAlignmentCore, TextAlignment.Left);
-            IsLeftAlignment = object.Equals(TextAlignmentCore, TextAlignment.Right);
             IsJustifyAlignment = object.Equals(TextAlignmentCore, TextAlignment.Justify);
             IsCenterAlignment = object.Equals(TextAlignmentCore, TextAlignment.Center);
 
-            IsLeftToRight = object.Equals(ReadingDirectionCore, FlowDirection.RightToLeft);
-            IsRightToLeft = object.Equals(ReadingDirectionCore, FlowDirection.LeftToRight);
+            
 
             IsBold = IsBoldCore;
             IsItalic = IsItalicCore;
@@ -445,7 +490,7 @@ namespace Utils {
             SelectionTextBackgroundColor = SelectionTextBackgroundColorCore;
             Container = GetUIElementUnderSelection();
           //  ListMarkerStyle = ListMarkerStyleCore;
-            NumberMarkerStyle = NumberMarkerStyleCore;
+            
             IsEmpty = IsEmptyCore;
             IsSelectionEmpty = IsSelectionEmptyCore;
             IsUpdating = false;
@@ -453,7 +498,59 @@ namespace Utils {
         public void Clear() {
             ClearCommandExecute();
         }
+
+        public void IndentIncrease()
+        {
+            IndentIncreaseCommandExecute();
+        }
+
+        public void IndentDecrease()
+        {
+            IndentDecreaseCommandExecute();
+        }
+
+        public void IncreaseFontSize()
+        {
+            IncreaseFontSizeCommandExecute();
+        }
+
+        public void DecreaseFontSize()
+        {
+            DecreaseFontSizeCommandExecute();
+        }
+
         #region commands implementation
+
+        protected bool CanIndentIncreaseCommandExecute() { return true; }
+        protected void IndentIncreaseCommandExecute()
+        {
+
+            //Paragraph p = Selection.Start.Paragraph;
+            //if (p == null)
+            //    return;
+            EditingCommands.IncreaseIndentation.Execute(null, this);
+        }
+
+        protected bool CanIndentDecreaseCommandExecute() { return true; }
+        protected void IndentDecreaseCommandExecute()
+        {
+            EditingCommands.DecreaseIndentation.Execute(null, this);
+        }
+
+        protected bool CanIncreaseFontSizeCommandExecute() { return true; }
+        protected void IncreaseFontSizeCommandExecute()
+        {
+            EditingCommands.IncreaseFontSize.Execute(null, this);
+            SelectionFontSize = SelectionFontSizeCore;
+        }
+
+        protected bool CanDecreaseFontSizeCommandExecute() { return true; }
+        protected void DecreaseFontSizeCommandExecute()
+        {
+            EditingCommands.DecreaseFontSize.Execute(null, this);
+            SelectionFontSize = SelectionFontSizeCore;
+        }
+
         protected bool CanClearSelectionCommandExecute() { return !Selection.IsEmpty; }
         protected void ClearSelectionCommandExecute() {
             Selection.Select(Selection.Start, Selection.Start);            
@@ -569,7 +666,7 @@ namespace Utils {
             }
             set
             {
-                Selection.ApplyPropertyValue(System.Windows.Documents.Paragraph.FlowDirectionProperty, value);
+                //Selection.ApplyPropertyValue(System.Windows.Documents.Paragraph.FlowDirectionProperty, value);
             }
         }
 
@@ -591,7 +688,7 @@ namespace Utils {
                 TextAlignmentCore = TextAlignment.Right;
 
                 //IsRightAlignment = true;
-                 ReadingDirectionCore = FlowDirection.RightToLeft;
+                // ReadingDirectionCore = FlowDirection.RightToLeft;
                 return true;
             }
         }
@@ -633,6 +730,26 @@ namespace Utils {
         {
             get
             {
+                //Paragraph startParagraph = _richTextBox.Selection.Start.Paragraph;
+                //Paragraph endParagraph = _richTextBox.Selection.End.Paragraph;
+                //if (startParagraph != null && endParagraph != null && (startParagraph.Parent is ListItem) && (endParagraph.Parent is ListItem) && object.ReferenceEquals(((ListItem)startParagraph.Parent).List, ((ListItem)endParagraph.Parent).List))
+                //{
+                //    TextMarkerStyle markerStyle = ((ListItem)startParagraph.Parent).List.MarkerStyle;
+                //    if (markerStyle == TextMarkerStyle.Disc) //bullets
+                //    {
+                //        _btnBullets.IsChecked = true;
+                //    }
+                //    else if (markerStyle == TextMarkerStyle.Decimal) //numbers
+                //    {
+                //        _btnNumbers.IsChecked = true;
+                //    }
+                //}
+                //else
+                //{
+                //    _btnBullets.IsChecked = false;
+                //    _btnNumbers.IsChecked = false;
+                //}
+
                 Paragraph startParagraph = Selection.Start.Paragraph;
                 Paragraph endParagraph = Selection.End.Paragraph;
                 if (startParagraph != null && endParagraph != null && (startParagraph.Parent is ListItem) && (endParagraph.Parent is ListItem) && object.ReferenceEquals(((ListItem)startParagraph.Parent).List, ((ListItem)endParagraph.Parent).List))
@@ -644,6 +761,8 @@ namespace Utils {
             set
             {
                 Paragraph p = Selection.Start.Paragraph;
+                
+                //p.FlowDirection = FlowDirection.RightToLeft;
                 if (p == null)
                     return;
                 //if (value == TextMarkerStyle.None)
@@ -664,6 +783,16 @@ namespace Utils {
                 //    EditingCommands.ToggleNumbering.Execute(null, this);
                 //    p = this.Selection.Start.Paragraph;
                 //}
+
+                //object DIRECTION = Selection.GetPropertyValue(Paragraph.FlowDirectionProperty);//Selection.GetPropertyValue(System.Windows.Documents.Paragraph.TextAlignmentProperty);
+                //DIRECTION = DIRECTION == DependencyProperty.UnsetValue ? FlowDirection.RightToLeft : (FlowDirection)DIRECTION;
+
+                //if((FlowDirection)DIRECTION == FlowDirection.RightToLeft)
+                //    Selection.ApplyPropertyValue(System.Windows.Documents.Paragraph.FlowDirectionProperty, FlowDirection.LeftToRight);
+                //else
+                //    Selection.ApplyPropertyValue(System.Windows.Documents.Paragraph.FlowDirectionProperty, FlowDirection.RightToLeft);
+
+
                 if (value == TextMarkerStyle.Disc)
                     EditingCommands.ToggleBullets.Execute(null, this);
 
