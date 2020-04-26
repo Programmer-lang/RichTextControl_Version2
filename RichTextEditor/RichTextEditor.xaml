@@ -14,6 +14,7 @@
     <Grid>
         <DockPanel>
             <DockPanel.Resources>
+                
                 <ControlTemplate x:Key="DemoRichControlTemplate" TargetType="{x:Type TextBoxBase}">
                     <Border x:Name="border"
                     BorderBrush="{TemplateBinding BorderBrush}"
@@ -29,7 +30,7 @@
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </DockPanel.Resources>
-            <dxb:ToolBarControl x:Name="toolBar" DockPanel.Dock="Top" Caption="Standard" ShowDragWidget="True" >
+            <dxb:ToolBarControl x:Name="toolBar" DockPanel.Dock="Top" Caption="Standard" ShowDragWidget="True" AllowQuickCustomization="False" >
 
                 <dxb:BarButtonItem Name="bOpen"
                                    CategoryName="File"
@@ -228,7 +229,135 @@
                                   Command="{Binding ElementName=richControl, Path=IndentDecreaseCommand}" />
 
                 <dxb:BarItemLinkSeparator />
+                <dxb:BarSplitButtonItem Name="bTable"
+                                        CategoryName="Table"
+                                        Content="Insert Table"
+                                        Glyph="{dx:DXImage Image=InsertTable_16x16.png}"
+                                        Hint="Insert table"
+                                        Description="Insert Table"
+                                        ActAsDropDown="True"
+                                        >
+                    <dxb:BarSplitButtonItem.PopupControl>
+                        <dxb:PopupControlContainer>
+                            <UserControl >
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="40"/>
+                                        <ColumnDefinition Width="5"/>
+                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="5"/>
+                                        <ColumnDefinition Width="30"/>
 
+                                        <ColumnDefinition Width="5"/>
+                                        <ColumnDefinition Width="30"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        
+                                        <RowDefinition Height="60"/>
+                                    </Grid.RowDefinitions>
+                                    <dxb:ToolBarControl Grid.Column="0" Margin="0,5,0,5"  AllowQuickCustomization="False" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                   
+                                        <dxb:BarButtonItem Name="bInsertTable"
+                                          CategoryName="TableTemplate"
+                                          Content="Insert Table"
+                                          Glyph="{dx:DXImage Image=InsertTable_16x16.png}"
+                                          LargeGlyph="{dx:DXImage Image=InsertTable_32x32.png}"
+                                                       RibbonStyle="Large"
+                                          Description="insert table"
+                                          Command="{Binding ElementName=richControl, Path=InsertTableCommand}" />
+                                        
+                                    </dxb:ToolBarControl>
+                                    
+                                    <Separator  Grid.Column="1" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+
+                                    <dxb:ToolBarControl IsMultiLine="True" Grid.Column="2" Margin="0,5,0,5"  AllowQuickCustomization="False" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                  
+                                        
+                                        <dxb:BarButtonItem Name="bInsertRowAbove"
+                                          CategoryName="TableTemplate"
+                                          Content="Insert row above"
+                                          Glyph="{dx:DXImage Image=InsertTableRowsAbove_16x16.png}"
+                                          Description="insert table"
+                                          Command="{Binding ElementName=richControl, Path=InsertRowAboveCommand}" />
+                                        
+                                        <dxb:BarButtonItem Name="bInsertRowBelow"
+                                          CategoryName="TableTemplate"
+                                          Content="Insert row below"
+                                          Glyph="{dx:DXImage Image=InsertTableRowsBelow_16x16.png}"
+                                          Description="insert row below"
+                                          Command="{Binding ElementName=richControl, Path=InsertRowBelowCommand}" />
+                                        <dxb:BarItemLinkSeparator/>
+                                       <dxb:BarItemLinkSeparator/>
+                                    </dxb:ToolBarControl>
+                                    <Separator  Grid.Column="3" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+
+                                    <dxb:ToolBarControl IsMultiLine="True" Grid.Column="4" Margin="0,5,0,5"  AllowQuickCustomization="False" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+
+                                            <dxb:BarButtonItem Name="bInsertColumnLeft"
+                                          CategoryName="TableTemplate"
+                                          Content="Insert column to the left"
+                                          Glyph="{dx:DXImage Image=InsertTableColumnsToTheLeft_16x16.png}"
+                                          Description="insert column to the left"
+                                          Command="{Binding ElementName=richControl, Path=InsertColumnRightCommand}" />
+
+                                        
+
+                                        <dxb:BarButtonItem Name="bInsertColumnRight"
+                                          CategoryName="TableTemplate"
+                                          Content="Insert column to the right"
+                                          Glyph="{dx:DXImage Image=InsertTableColumnsToTheRight_16x16.png}"
+                                          Description="insert column to the right"
+                                          Command="{Binding ElementName=richControl, Path=InsertColumnLeftCommand}" />
+
+
+                                        
+                                        
+                                    </dxb:ToolBarControl>
+                                    <Separator  Grid.Column="5" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+
+                                    <dxb:ToolBarControl IsMultiLine="True" Grid.Column="6" Margin="0,5,0,5" AllowQuickCustomization="False" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+
+                                        <dxb:BarButtonItem Name="bDeleteRow"
+                                          CategoryName="TableTemplate"
+                                          Content="delete rows"
+                                          Glyph="{dx:DXImage Image=RemoveSheetRows_16x16.png}"
+                                          Description="delete rows"
+                                          Command="{Binding ElementName=richControl, Path=DeleteRowsCommand}" />
+
+
+                                        <dxb:BarButtonItem Name="bDeleteColumn"
+                                          CategoryName="TableTemplate"
+                                          Content="delete columns"
+                                          Glyph="{dx:DXImage Image=RemoveSheetColumns_16x16.png}"
+                                          Description="delete columns"
+                                          Command="{Binding ElementName=richControl, Path=DeleteColumnsCommand}" />
+
+                                    </dxb:ToolBarControl>
+                                </Grid>
+                            </UserControl>
+                            <!--<dxe:ColorEdit DefaultColor="Transparent"
+                                           EditValue="{Binding ElementName=richControl, Path=SelectionTextBackgroundColor}"
+                                           DefaultColorButtonContent="No color"
+                                           ShowBorder="False"
+                                           CloseOwnerPopupOnClick="True" />-->
+                        </dxb:PopupControlContainer>
+                    </dxb:BarSplitButtonItem.PopupControl>
+                </dxb:BarSplitButtonItem>
+
+                <!--<dxb:BarSubItem Name="barSubItem"
+                            Content="Save Menu"
+                            Glyph="{dx:DXImage Image=Save_16x16.png}"
+                            LargeGlyph="{dx:DXImage Image=Save_32x32.png}">
+                    <dxb:BarButtonItem Name="bSave" Content="Save" Glyph="{dx:DXImage Image=Save_16x16.png}" LargeGlyph="{dx:DXImage Image=Save_32x32.png}" />
+                    <dxb:BarButtonItem Name="bSaveAs"
+                                   Content="Save As"
+                                   Glyph="{dx:DXImage Image=SaveAs_16x16.png}"
+                                   LargeGlyph="{dx:DXImage Image=SaveAs_32x32.png}" />
+                </dxb:BarSubItem>-->
+                
+                
             </dxb:ToolBarControl>
             <!--<RichTextBox x:Uid="m_RTB" x:Name="m_RTB" DockPanel.Dock="Bottom" 
 									 AcceptsTab="True" AcceptsReturn="True"

@@ -22,6 +22,7 @@ using Block = System.Windows.Documents.Block;
 using Inline = System.Windows.Documents.Inline;
 using ListItem = System.Windows.Documents.ListItem;
 using BlockCollection = System.Windows.Documents.BlockCollection;
+using RichTextEditor;
 
 namespace Utils {
     public class RichControl : System.Windows.Controls.RichTextBox {
@@ -245,6 +246,13 @@ namespace Utils {
         public ICommand ExportFileCommand { get; set; }
         public ICommand InsertTableCommand { get; set; }
 
+        public ICommand InsertRowAboveCommand { get; set; }
+        public ICommand InsertRowBelowCommand { get; set; }
+        public ICommand InsertColumnLeftCommand { get; set; }
+        public ICommand InsertColumnRightCommand { get; set; }
+        public ICommand DeleteRowsCommand { get; set; }
+        public ICommand DeleteColumnsCommand { get; set; }
+
         public ICommand IndentIncreaseCommand { get; set; }
         public ICommand IndentDecreaseCommand { get; set; }
         public ICommand IncreaseFontSizeCommand { get; set; }
@@ -267,6 +275,12 @@ namespace Utils {
 
             InsertTableCommand = new DelegateCommand(InsertTableCommandExecute, CanInsertTableCommandExecute);
 
+            InsertRowAboveCommand = new DelegateCommand(InsertRowAboveCommandExecute, CanInsertRowAboveCommandExecute);
+            InsertRowBelowCommand = new DelegateCommand(InsertRowBelowCommandExecute, CanInsertRowBelowCommandExecute);
+            InsertColumnLeftCommand = new DelegateCommand(InsertColumnLeftCommandExecute, CanInsertColumnLeftCommandExecute);
+            InsertColumnRightCommand = new DelegateCommand(InsertColumnRightCommandExecute, CanInsertColumnRightCommandExecute);
+            DeleteRowsCommand = new DelegateCommand(DeleteRowsCommandExecute, CanDeleteRowsCommandExecute);
+            DeleteColumnsCommand = new DelegateCommand(DeleteColumnsCommandExecute, CanDeleteColumnsCommandExecute);
 
 
             IndentIncreaseCommand = new DelegateCommand(IndentIncreaseCommandExecute, CanIndentIncreaseCommandExecute);
@@ -538,6 +552,32 @@ namespace Utils {
             InsertTableCommandExecute();
         }
 
+        public void InsertRowAbove()
+        {
+            InsertRowAboveCommandExecute();
+        }
+
+        public void InsertRowBelow()
+        {
+            InsertRowBelowCommandExecute();
+        }
+        public void InsertColumnLeft()
+        {
+            InsertColumnLeftCommandExecute();
+        }
+        public void InsertColumnRight()
+        {
+            InsertColumnRightCommandExecute();
+        }
+        public void DeleteRowsTable()
+        {
+            DeleteRowsCommandExecute();
+        }
+        public void DeleteColumns()
+        {
+            DeleteColumnsCommandExecute();
+        }
+
         public void IndentIncrease()
         {
             IndentIncreaseCommandExecute();
@@ -754,10 +794,44 @@ namespace Utils {
         protected bool CanInsertTableCommandExecute() { return true; }
         protected void InsertTableCommandExecute()
         {
-            
+            TableCommands.OnInsertTable(this, null);
         }
 
+        protected bool CanInsertRowAboveCommandExecute() { return true; }
+        protected void InsertRowAboveCommandExecute()
+        {
+            TableCommands.OnInsertRowsAbove(this, null);
+        }
 
+        protected bool CanInsertRowBelowCommandExecute() { return true; }
+        protected void InsertRowBelowCommandExecute()
+        {
+            TableCommands.OnInsertRowsBelow(this, null);
+        }
+
+        protected bool CanInsertColumnLeftCommandExecute() { return true; }
+        protected void InsertColumnLeftCommandExecute()
+        {
+            TableCommands.OnInsertColumnsToLeft(this, null);
+        }
+
+        protected bool CanInsertColumnRightCommandExecute() { return true; }
+        protected void InsertColumnRightCommandExecute()
+        {
+            TableCommands.OnInsertColumnsToRight(this, null);
+        }
+
+        protected bool CanDeleteRowsCommandExecute() { return true; }
+        protected void DeleteRowsCommandExecute()
+        {
+            TableCommands.OnDeleteRows(this, null);
+        }
+
+        protected bool CanDeleteColumnsCommandExecute() { return true; }
+        protected void DeleteColumnsCommandExecute()
+        {
+            TableCommands.OnDeleteColumns(this, null);
+        }
 
         protected void PrintCommandExecute() {
             System.Windows.Controls.PrintDialog dialog = new System.Windows.Controls.PrintDialog();

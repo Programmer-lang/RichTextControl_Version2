@@ -172,11 +172,11 @@
     </LinearGradientBrush>
 
     <Style x:Uid="Style_7" x:Key="NormalButtonStyle" TargetType="{x:Type Button}">
-        <Setter x:Uid="Setter_24" Property="Foreground" Value="#FFFFFF" />
+        <Setter x:Uid="Setter_24" Property="Foreground" Value="Black" />
         <Setter x:Uid="Setter_25" Property="Width" Value="120"/>
         <Setter x:Uid="Setter_26" Property="Height" Value="25"/>
         <Setter x:Uid="Setter_27" Property="FontSize" Value="10"/>
-        <Setter x:Uid="Setter_28" Property="Template">
+        <!--<Setter x:Uid="Setter_28" Property="Template">
             <Setter.Value>
                 <ControlTemplate x:Uid="ControlTemplate_3" TargetType="{x:Type Button}">
                     <Grid x:Uid="Grid_3">
@@ -211,7 +211,7 @@
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
-        </Setter>
+        </Setter>-->
     </Style>
 
     <Style x:Uid="Style_8" x:Key="BlackButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource NormalButtonStyle}">

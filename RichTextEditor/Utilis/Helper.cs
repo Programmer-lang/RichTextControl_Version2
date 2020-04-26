@@ -79,6 +79,9 @@ namespace RichTextEditor.Utilis
             table.CellSpacing = 2;
             table.BorderBrush = borderBrush;
             table.BorderThickness = borderThickness;
+
+          //  table.for
+
             table.MouseEnter += new MouseEventHandler(table_MouseEnter);
             table.MouseLeave += new MouseEventHandler(table_MouseLeave);
 

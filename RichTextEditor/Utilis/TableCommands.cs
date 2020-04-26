@@ -13,6 +13,7 @@ using System.Threading;
 using System.Windows.Controls;
 using RichTextEditor.Utilis;
 using Adastra.RichEditorLibrary;
+using Utils;
 
 namespace RichTextEditor
 {
@@ -177,8 +178,8 @@ namespace RichTextEditor
 
         public static void OnEditTableProperties(object sender, ExecutedRoutedEventArgs e)
         {
-            RichTextEditor control = (RichTextEditor)sender;
-            RichTextBox richTextBox = control.richControl;
+           // RichTextEditor control = (RichTextEditor)sender;
+            RichTextBox richTextBox = (RichControl)sender;
 
             TextPointer textPosition = richTextBox.Selection.Start;
 
@@ -202,8 +203,8 @@ namespace RichTextEditor
 
         public static void OnInsertTable(object sender, ExecutedRoutedEventArgs e)
         {
-            RichTextEditor control = (RichTextEditor)sender;
-            RichTextBox richTextBox = control.richControl;
+           // RichTextEditor control = (RichControl)sender;
+            RichTextBox richTextBox = (RichControl)sender;
 
             if (!richTextBox.Selection.IsEmpty)
             {
@@ -236,8 +237,8 @@ namespace RichTextEditor
 
         public static void OnInsertRowsAbove(object sender, ExecutedRoutedEventArgs e)
         {
-            RichTextEditor control = (RichTextEditor)sender;
-            RichTextBox richTextBox = control.richControl;
+            //RichTextEditor control = (RichTextEditor)sender;
+            RichTextBox richTextBox = (RichControl)sender;
 
             TextPointer insertionPosition = richTextBox.Selection.Start;
             TableRow tableRow = Helper.GetTableRowAncestor(insertionPosition);
@@ -263,8 +264,8 @@ namespace RichTextEditor
 
         public static void OnInsertRowsBelow(object sender, ExecutedRoutedEventArgs e)
         {
-            RichTextEditor control = (RichTextEditor)sender;
-            RichTextBox richTextBox = control.richControl;
+            //RichTextEditor control = (RichTextEditor)sender;
+            RichTextBox richTextBox = (RichControl)sender;
             TextPointer insertionPosition = richTextBox.Selection.Start;
             
             TableRow tableRow = Helper.GetTableRowAncestor(insertionPosition);
@@ -290,8 +291,8 @@ namespace RichTextEditor
 
         public static void OnInsertColumnsToRight(object sender, ExecutedRoutedEventArgs e)
         {
-            RichTextEditor control = (RichTextEditor)sender;
-            RichTextBox richTextBox = control.richControl;
+            // control = (RichTextEditor)sender;
+            RichTextBox richTextBox = (RichControl)sender;
             TextPointer insertionPosition = richTextBox.Selection.Start;
             
             TableCell tableCell = Helper.GetTableCellAncestor(insertionPosition);
@@ -325,8 +326,8 @@ namespace RichTextEditor
 
         public static void OnInsertColumnsToLeft(object sender, ExecutedRoutedEventArgs e)
         {
-            RichTextEditor control = (RichTextEditor)sender;
-            RichTextBox richTextBox = control.richControl;
+          //  RichTextEditor control = (RichTextEditor)sender;
+            RichTextBox richTextBox = (RichControl)sender;
             TextPointer insertionPosition = richTextBox.Selection.Start;
 
             TableCell tableCell = Helper.GetTableCellAncestor(insertionPosition);
@@ -360,8 +361,8 @@ namespace RichTextEditor
 
         public static void OnDeleteTable(object sender, ExecutedRoutedEventArgs e)
         {
-            RichTextEditor control = (RichTextEditor)sender;
-            RichTextBox richTextBox = control.richControl;
+           // RichTextEditor control = (RichTextEditor)sender;
+            RichTextBox richTextBox = (RichControl)sender;
             TextPointer insertionPosition = richTextBox.Selection.Start;
 
             Table table = Helper.GetTableAncestor(insertionPosition);
@@ -373,8 +374,8 @@ namespace RichTextEditor
 
         public static void OnDeleteRows(object sender, ExecutedRoutedEventArgs e)
         {
-            RichTextEditor control = (RichTextEditor)sender;
-            RichTextBox richTextBox = control.richControl;
+           // RichTextEditor control = (RichTextEditor)sender;
+            RichTextBox richTextBox = (RichControl)sender;
 
             TextPointer selectionStartPosition = richTextBox.Selection.Start;
             TableRow startTableRow = Helper.GetTableRowAncestor(selectionStartPosition);
@@ -425,8 +426,8 @@ namespace RichTextEditor
 
         public static void OnDeleteColumns(object sender, ExecutedRoutedEventArgs e)
         {
-            RichTextEditor control = (RichTextEditor)sender;
-            RichTextBox richTextBox = control.richControl;
+           // RichTextEditor control = (RichTextEditor)sender;
+            RichTextBox richTextBox = (RichControl)sender;
 
             TextPointer selectionStartPosition = richTextBox.Selection.Start;
             TableCell startTableCell = Helper.GetTableCellAncestor(selectionStartPosition);
