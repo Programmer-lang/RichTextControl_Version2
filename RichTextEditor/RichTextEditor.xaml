@@ -20,7 +20,7 @@
                     BorderThickness="{TemplateBinding BorderThickness}"
                     Background="{TemplateBinding Background}"
                     SnapsToDevicePixels="True">
-                        <ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" />
+                        <ScrollViewer x:Name="PART_ContentHost" Focusable="False" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
@@ -244,12 +244,18 @@
 
             <utils:RichControl 
                 x:Name="richControl" 
+                VerticalAlignment="Stretch"
+                VerticalContentAlignment="Stretch"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Stretch"
                 TextChanged="RtbEditor_TextChanged" 
-                BorderThickness="0,1,0,1" 
+                BorderThickness="1" 
                 Template="{StaticResource DemoRichControlTemplate}"
                 AcceptsTab="True" AcceptsReturn="True"
 				HorizontalScrollBarVisibility="Auto" 
-                VerticalScrollBarVisibility="Visible"/>
+                VerticalScrollBarVisibility="Auto"
+                Padding="0"
+                />
 
 
         </DockPanel>
