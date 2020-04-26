@@ -22,7 +22,7 @@ namespace RichTextEditor
     /// <summary>
     /// Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class RichRTextEditor: UserControl
+    public partial class RichTextEditor: UserControl
     {
 
         #region properties
@@ -36,7 +36,7 @@ namespace RichTextEditor
         #region RelatedToData
 
         public static readonly DependencyProperty TextProperty =
-         DependencyProperty.Register("Text", typeof(string), typeof(RichRTextEditor), new PropertyMetadata(new PropertyChangedCallback(OnTextChanged)));
+         DependencyProperty.Register("Text", typeof(string), typeof(RichTextEditor), new PropertyMetadata(new PropertyChangedCallback(OnTextChanged)));
       
 
         public string Text
@@ -50,7 +50,7 @@ namespace RichTextEditor
         }
 
         public static readonly DependencyProperty RtfTextProperty =
-         DependencyProperty.Register("RtfText", typeof(string), typeof(RichRTextEditor), new PropertyMetadata(new PropertyChangedCallback(OnRTFTextChanged)));
+         DependencyProperty.Register("RtfText", typeof(string), typeof(RichTextEditor), new PropertyMetadata(new PropertyChangedCallback(OnRTFTextChanged)));
 
 
         public string RtfText
@@ -62,7 +62,7 @@ namespace RichTextEditor
 
         private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = (RichRTextEditor)d;
+            var control = (RichTextEditor)d;
 
             if (!bDisableSet)
             {
@@ -74,7 +74,7 @@ namespace RichTextEditor
 
         private static void OnRTFTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = (RichRTextEditor)d;
+            var control = (RichTextEditor)d;
 
             if (!bDisableSet && (e.NewValue != null))
             {
@@ -109,12 +109,12 @@ namespace RichTextEditor
 
         // Using a DependencyProperty as the backing store for IsToolBarVisible.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsToolBarVisibleProperty =
-            DependencyProperty.Register("IsToolBarVisible", typeof(bool), typeof(RichRTextEditor), new PropertyMetadata(true, new PropertyChangedCallback(OnIsToolBarVisiblePropertyChanged)));
+            DependencyProperty.Register("IsToolBarVisible", typeof(bool), typeof(RichTextEditor), new PropertyMetadata(true, new PropertyChangedCallback(OnIsToolBarVisiblePropertyChanged)));
 
 
         private static void OnIsToolBarVisiblePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = (RichRTextEditor)d;
+            var control = (RichTextEditor)d;
 
             if ((bool)e.NewValue == true)
                 control.toolBar.Visibility = Visibility.Visible;
@@ -130,12 +130,12 @@ namespace RichTextEditor
 
         // Using a DependencyProperty as the backing store for AllowEditing.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty AllowEditingProperty =
-            DependencyProperty.Register("AllowEditing", typeof(bool), typeof(RichRTextEditor), new PropertyMetadata(true, new PropertyChangedCallback(OnAllowEditingChanged)));
+            DependencyProperty.Register("AllowEditing", typeof(bool), typeof(RichTextEditor), new PropertyMetadata(true, new PropertyChangedCallback(OnAllowEditingChanged)));
 
 
         private static void OnAllowEditingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = (RichRTextEditor)d;
+            var control = (RichTextEditor)d;
 
             if ((bool)e.NewValue == true)
             {
@@ -151,7 +151,7 @@ namespace RichTextEditor
 
         #endregion
 
-        public RichRTextEditor()
+        public RichTextEditor()
         {
             FontSizes = new double?[] {null, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 22, 24, 26, 28, 30,
                     32, 34, 36, 38, 40, 44, 48, 52, 56, 60, 64, 68, 72, 76, 80, 88, 96, 104, 112, 120, 128, 136, 144

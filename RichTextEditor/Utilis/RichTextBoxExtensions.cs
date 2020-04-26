@@ -13,11 +13,22 @@ namespace RichTextEditor.Utilis
     {
         public static string GetRtfText(FlowDocument document)
         {
-            TextRange tr = new TextRange(document.ContentStart, document.ContentEnd);
-            using (MemoryStream ms = new MemoryStream())
+            try
             {
-                tr.Save(ms, System.Windows.DataFormats.Rtf);
-                return ASCIIEncoding.Default.GetString(ms.ToArray());
+
+            
+                TextRange tr = new TextRange(document.ContentStart, document.ContentEnd);
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    tr.Save(ms, System.Windows.DataFormats.Rtf);
+                    return ASCIIEncoding.Default.GetString(ms.ToArray());
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+                MessageBox.Show("can't convert to rtf", "open file", MessageBoxButton.OK, MessageBoxImage.Error);
+
             }
         }
 

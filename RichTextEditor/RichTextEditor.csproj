@@ -34,6 +34,10 @@
   <ItemGroup>
     <Reference Include="DevExpress.Mvvm.v19.2, Version=19.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Core.v19.2, Version=19.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="SautinSoft.Document, Version=4.4.4.8, Culture=neutral, PublicKeyToken=e759c76c7515592a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>UsedReferences\SautinSoft.Document.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -48,9 +52,24 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFControlsLibrary, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>UsedReferences\WPFControlsLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Utilis\Helper.cs" />
     <Compile Include="Utilis\RichTextBoxExtensions.cs" />
+    <Compile Include="Utilis\TableColumnInfo.cs" />
+    <Compile Include="Utilis\TableCommands.cs" />
+    <Compile Include="Utilis\TableDragHandle.cs" />
+    <Compile Include="Utilis\TablePropertiesDialog.xaml.cs">
+      <DependentUpon>TablePropertiesDialog.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Resources\Styles\MainViewStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="RichTextEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -60,6 +79,10 @@
       <DependentUpon>RichTextEditor.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Utilis\TablePropertiesDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -83,6 +106,10 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="UsedReferences\SautinSoft.Document.dll" />
+    <Content Include="UsedReferences\WPFControlsLibrary.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

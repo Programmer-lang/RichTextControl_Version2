@@ -10,6 +10,18 @@ using DevExpress.Mvvm;
 using DevExpress.Xpf.Core.Native;
 using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.Core.Commands;
+using Microsoft.Win32;
+using System.IO;
+using System.Globalization;
+using RichTextEditor.Utilis;
+using SautinSoft.Document;
+using Color = System.Windows.Media.Color;
+using Run = System.Windows.Documents.Run;
+using Paragraph = System.Windows.Documents.Paragraph;
+using Block = System.Windows.Documents.Block;
+using Inline = System.Windows.Documents.Inline;
+using ListItem = System.Windows.Documents.ListItem;
+using BlockCollection = System.Windows.Documents.BlockCollection;
 
 namespace Utils {
     public class RichControl : System.Windows.Controls.RichTextBox {
@@ -229,6 +241,10 @@ namespace Utils {
         public ICommand SelectAllCommand { get; set; }
         public ICommand ClearCommand { get; set; }
 
+        public ICommand OpenFileCommand { get; set; }
+        public ICommand ExportFileCommand { get; set; }
+        public ICommand InsertTableCommand { get; set; }
+
         public ICommand IndentIncreaseCommand { get; set; }
         public ICommand IndentDecreaseCommand { get; set; }
         public ICommand IncreaseFontSizeCommand { get; set; }
@@ -244,6 +260,14 @@ namespace Utils {
         public RichControl() {
             ClearSelectionCommand = new DelegateCommand(ClearSelectionCommandExecute, CanClearSelectionCommandExecute);
             ClearCommand = new DelegateCommand(ClearCommandExecute, CanClearCommandExecute);
+
+            OpenFileCommand = new DelegateCommand(OpenFileCommandExecute, CanOpenFileCommandExecute);
+
+            ExportFileCommand = new DelegateCommand(ExportFileCommandExecute, CanExportFileCommandExecute);
+
+            InsertTableCommand = new DelegateCommand(InsertTableCommandExecute, CanInsertTableCommandExecute);
+
+
 
             IndentIncreaseCommand = new DelegateCommand(IndentIncreaseCommandExecute, CanIndentIncreaseCommandExecute);
             IndentDecreaseCommand = new DelegateCommand(IndentDecreaseCommandExecute, CanIndentDecreaseCommandExecute);
@@ -499,6 +523,21 @@ namespace Utils {
             ClearCommandExecute();
         }
 
+        public void OpenFile()
+        {
+            OpenFileCommandExecute();
+        }
+
+        public void ExportFile()
+        {
+            ExportFileCommandExecute();
+        }
+
+        public void InsertTable()
+        {
+            InsertTableCommandExecute();
+        }
+
         public void IndentIncrease()
         {
             IndentIncreaseCommandExecute();
@@ -559,6 +598,167 @@ namespace Utils {
         protected void ClearCommandExecute() {
             (Document as FlowDocument).Blocks.Clear();
         }
+
+        protected bool CanOpenFileCommandExecute() { return true; }
+        protected void OpenFileCommandExecute()
+        {
+            //OpenFileDialog dlg = new OpenFileDialog();
+            //dlg.Filter = "Document files (*.doc)|*.docx";
+            //var result = dlg.ShowDialog();
+            //if (result.Value)
+            //{
+            //    TextRange t = new TextRange(Document.ContentStart, Document.ContentEnd);
+            //    FileStream file = new FileStream(dlg.FileName, FileMode.Open);
+            //    t.Load(file, System.Windows.DataFormats.Text);
+            //}
+
+            //Microsoft.Win32.OpenFileDialog OpenFiledlg = new Microsoft.Win32.OpenFileDialog();
+            //OpenFiledlg.DefaultExt = "All files (*.*)|*.*";
+            ////OpenFiledlg.Filter = "RTF Files(*.rtf)|*.rtf |All files (*.*)|*.*";
+            //OpenFiledlg.Filter = "Rich Text Format (*.rtf)|*.rtf|All files (*.*)|*.*";
+            //if (OpenFiledlg.ShowDialog() == true & OpenFiledlg.FileName.Length > 0)
+            //{
+            //    FileStream fileStream = new FileStream(OpenFiledlg.FileName, FileMode.Open);
+            //    TextRange range = new TextRange(Document.ContentStart, Document.ContentEnd);
+            //    range.Load(fileStream, System.Windows.DataFormats.Rtf);
+            //}
+
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            
+
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            openFileDialog.Multiselect = false;
+            openFileDialog.Title = "open file";
+            openFileDialog.Filter = "Rich Text Format (*.rtf,*doc,*.docx)|*.rtf;*doc;*.docx";
+
+            if (true == openFileDialog.ShowDialog())
+            {
+                try
+                { 
+                string fileName = openFileDialog.FileName;
+
+                string ext = Path.GetExtension(fileName);
+
+                    if (ext == ".rtf")
+                        LoadRTF(fileName);
+                    else
+                        LoadDocFile(fileName);
+
+                
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("failed to open file", "open file", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+
+
+        }
+
+
+        private void LoadDocFile(string inpFile)
+        {
+
+
+           byte[] inpData = File.ReadAllBytes(inpFile);
+            
+
+            TextRange textRange = new TextRange(this.Document.ContentStart, this.Document.ContentEnd);
+
+            using (MemoryStream msInp = new MemoryStream(inpData))
+            {
+
+                // Load a document.
+                DocumentCore dc = DocumentCore.Load(msInp, new DocxLoadOptions());
+
+                // Save the document to PDF format.
+                using (MemoryStream outMs = new MemoryStream())
+                {
+                    dc.Save(outMs, new RtfSaveOptions());
+
+                    textRange.Load(outMs, DataFormats.Rtf);
+
+                }
+            }
+        }
+        private void LoadRTF(string fileName)
+        {
+            Stream fileStream = null;
+            string strDocument = String.Empty;
+
+            if ((fileStream = File.Open(fileName, FileMode.Open)) != null)
+            {
+                using (fileStream)
+                {
+                    StreamReader streamReader = new StreamReader(fileStream);
+
+                    streamReader.BaseStream.Position = 0;
+                    strDocument = streamReader.ReadToEnd();
+
+
+
+
+                    TextRange textRange = new TextRange(this.Document.ContentStart, this.Document.ContentEnd);
+
+                    using (MemoryStream rtfMemoryStream = new MemoryStream())
+                    {
+                        using (StreamWriter rtfStreamWriter = new StreamWriter(rtfMemoryStream))
+                        {
+                            rtfStreamWriter.Write(strDocument);
+                            rtfStreamWriter.Flush();
+                            rtfMemoryStream.Seek(0, SeekOrigin.Begin);
+
+                            //### Load the MemoryStream into TextRange ranging from start to end of RichTextBox.
+                            textRange.Load(rtfMemoryStream, DataFormats.Rtf);
+                        }
+                    }
+                }
+            }
+        }
+
+        protected bool CanExportFileCommandExecute() { return true; }
+        protected void ExportFileCommandExecute()
+        {
+            try
+            {
+
+                //Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+                //dlg.Filter = "Rich Text Format (*.rtf)|*.rtf|All files (*.*)|*.*";
+                //if (dlg.ShowDialog() == true)
+                //{
+                //    FileStream fileStream = new FileStream(dlg.FileName, FileMode.Create);
+                //    TextRange range = new TextRange(rtbEditor.Document.ContentStart, rtbEditor.Document.ContentEnd);
+                //    range.Save(fileStream, System.Windows.Forms.DataFormats.Rtf);
+                //}
+
+                SaveFileDialog savefile = new SaveFileDialog();
+                // set a default file name  
+                savefile.FileName = "unknown.doc";
+                // set filters - this can be done in properties as well  
+                savefile.Filter = "Document files (*.rtf)|*.rtf";
+                if (savefile.ShowDialog() == true)
+                {
+                    TextRange t = new TextRange(Document.ContentStart, Document.ContentEnd);
+                    FileStream file = new FileStream(savefile.FileName, FileMode.Create);
+                    t.Save(file, System.Windows.DataFormats.Rtf);
+                    file.Close();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        protected bool CanInsertTableCommandExecute() { return true; }
+        protected void InsertTableCommandExecute()
+        {
+            
+        }
+
+
+
         protected void PrintCommandExecute() {
             System.Windows.Controls.PrintDialog dialog = new System.Windows.Controls.PrintDialog();
             if(dialog.ShowDialog() != true) return;

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="RichTextEditor.RichRTextEditor"
+﻿<UserControl x:Class="RichTextEditor.RichTextEditor"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -30,6 +30,96 @@
                 </ControlTemplate>
             </DockPanel.Resources>
             <dxb:ToolBarControl x:Name="toolBar" DockPanel.Dock="Top" Caption="Standard" ShowDragWidget="True" >
+
+                <dxb:BarButtonItem Name="bOpen"
+                                   CategoryName="File"
+                                   Content="_Open"
+                                   Glyph="{dx:DXImage Image=Open2_16x16.png}"
+                                   KeyGesture="Ctrl+O"
+                                   Hint="Open"
+                                   Command="{Binding ElementName=richControl, Path=OpenFileCommand}"
+                                   Description="Opens a file."
+                                   IsEnabled="True" />
+                <dxb:BarButtonItem Name="bExport"
+                                   CategoryName="File"
+                                   Content="_Export"
+                                   Glyph="{dx:DXImage Image=Export_16x16.png}"
+                                   KeyGesture="Ctrl+E"
+                                   Hint="Export the Document"
+                                   Command="{Binding ElementName=richControl, Path=ExportFileCommand}"
+                                   Description="Export the active document with its current file name."
+                                   IsEnabled="True" />
+                <dxb:BarItemLinkSeparator />
+                
+                <dxb:BarEditItem Name="eFontFamily"
+                                 CategoryName="Format"
+                                 EditWidth="{Binding RelativeSource={RelativeSource Self}, Path=(dx:ThemeManager.TreeWalker), Converter={local:EditWidthConverter EditWidth=150}}"
+                                 ClosePopupOnChangingEditValue="True"
+                                 Description="Changes the font family of the selected text."
+                                 EditValue="{Binding ElementName=richControl, Path=SelectionFontFamily, Mode=TwoWay}">
+                    <dxb:BarEditItem.EditSettings>
+                        <dxe:FontEditSettings AutoComplete="True" ValidateOnTextInput="False" FlowDirection="RightToLeft"/>
+                    </dxb:BarEditItem.EditSettings>
+                </dxb:BarEditItem>
+                <dxb:BarEditItem Name="eFontSize"
+                                 CategoryName="Format"
+                                 EditWidth="{Binding RelativeSource={RelativeSource Self}, Path=(dx:ThemeManager.TreeWalker), Converter={local:EditWidthConverter EditWidth=60}}"
+                                 Description="Changes the font size of the selected text."
+                                 EditValue="{Binding ElementName=richControl, Path=SelectionFontSize, Mode=TwoWay}" >
+                    <dxb:BarEditItem.EditSettings>
+                        <dxe:ComboBoxEditSettings x:Name="fontSizeSettings" PopupMaxHeight="250" IsTextEditable="False" FlowDirection="RightToLeft" ItemsSource="{Binding FontSizes}" />
+                    </dxb:BarEditItem.EditSettings>
+                </dxb:BarEditItem>
+                <dxb:BarItemLinkSeparator />
+                <dxb:BarSplitButtonItem Name="bFontColor"
+                                        CategoryName="Format"
+                                        Content="Font _Color"
+                                        Glyph="{dx:DXImage Image=ChangeFontStyle_16x16.png}"
+                                        Hint="Font Color Dialog"
+                                        Description="Formats the selected text with the color you click."
+                                        ActAsDropDown="True">
+                    <dxb:BarSplitButtonItem.PopupControl>
+                        <dxb:PopupControlContainer>
+                            <dxe:ColorEdit DefaultColor="Transparent"
+                                           EditValue="{Binding ElementName=richControl, Path=SelectionTextColor}"
+                                           DefaultColorButtonContent="No color"
+                                           ShowBorder="False"
+                                           CloseOwnerPopupOnClick="True" />
+                        </dxb:PopupControlContainer>
+                    </dxb:BarSplitButtonItem.PopupControl>
+                </dxb:BarSplitButtonItem>
+                <dxb:BarSplitButtonItem Name="bBackgroundColor"
+                                        CategoryName="Format"
+                                        Content="Background _Color"
+                                        Glyph="{dx:DXImage Image=Highlight_16x16.png}"
+                                        Hint="Background Color Dialog"
+                                        Description="Formats the selected text Background with the color you click."
+                                        ActAsDropDown="True">
+                    <dxb:BarSplitButtonItem.PopupControl>
+                        <dxb:PopupControlContainer>
+                            <dxe:ColorEdit DefaultColor="Transparent"
+                                           EditValue="{Binding ElementName=richControl, Path=SelectionTextBackgroundColor}"
+                                           DefaultColorButtonContent="No color"
+                                           ShowBorder="False"
+                                           CloseOwnerPopupOnClick="True" />
+                        </dxb:PopupControlContainer>
+                    </dxb:BarSplitButtonItem.PopupControl>
+                </dxb:BarSplitButtonItem>
+                
+                <dxb:BarItemLinkSeparator />
+                <dxb:BarButtonItem Name="bIncreaseFontSize"
+                                  CategoryName="FontSize"
+                                  Glyph="{dx:DXImage Image=FontSizeIncrease_16x16.png}"
+                                  Description="increase font size"
+                                  Command="{Binding ElementName=richControl, Path=IncreaseFontSizeCommand}" />
+                <dxb:BarButtonItem Name="bDecreaseFontSize"
+                                  CategoryName="FontSize"
+                                  Glyph="{dx:DXImage Image=FontSizeDecrease_16x16.png}"
+                                  Description="decrease font size"
+                                  Command="{Binding ElementName=richControl, Path=DecreaseFontSizeCommand}" />
+
+                <dxb:BarItemLinkSeparator />
+                
                 <dxb:BarCheckItem Name="bUnderline"
                                   CategoryName="Format"
                                   Content="_Underline"
@@ -45,6 +135,7 @@
                                   KeyGesture="Ctrl+I"
                                   IsChecked="{Binding ElementName=richControl, Path=IsItalic, Mode=TwoWay}"
                                   Description="Makes selected text and numbers italic. Is the selection is already italic, clicking button removes italic formating." />
+                
                 <dxb:BarCheckItem Name="bBold"
                                   CategoryName="Format"
                                   Content="_Bold"
@@ -62,6 +153,7 @@
                                   Glyph="{dx:DXImage Image=AlignRight_16x16.png}"
                                   IsChecked="{Binding ElementName=richControl, Path=IsRightAlignment, Mode=TwoWay}"
                                   Description="Aligns the selected text to the right." />
+                
                 <dxb:BarCheckItem Name="bCenter"
                                   CategoryName="Format"
                                   Content="_Center"
@@ -69,6 +161,7 @@
                                   Glyph="{dx:DXImage Image=AlignCenter_16x16.png}"
                                   IsChecked="{Binding ElementName=richControl, Path=IsCenterAlignment, Mode=TwoWay}"
                                   Description="Centers the selected text." />
+                
                 <dxb:BarCheckItem Name="bLeft"
                                   CategoryName="Format"
                                   Content="_Left"
@@ -87,25 +180,30 @@
 
                 
                 <dxb:BarItemLinkSeparator />
-            <dxb:BarCheckItem Name="bBullets"
+                
+                <dxb:BarCheckItem Name="bBullets"
                                   CategoryName="Format"
                                   Content="B_ullets"
                                   Glyph="{dx:DXImage Image=ListBullets_RightToLeft_16x16.png}"
                                   Description="Adds bullets to or removes bullets from selected paragraphs."
                                   IsChecked="{Binding ElementName=richControl, Path=IsList, Mode=TwoWay}" />
+                
                 <dxb:BarCheckItem Name="bNumbers"
                                   CategoryName="Format"
                                   Content="N_umbers"
                                   Glyph="{dx:DXImage Image=ListNumbers_RightToLeft_16x16.png}"
                                   Description="Adds Numbers to or removes Numbers from selected paragraphs."
                                   IsChecked="{Binding ElementName=richControl, Path=IsNumbered, Mode=TwoWay}" />
+                
                 <dxb:BarItemLinkSeparator />
+                
                 <dxb:BarCheckItem Name="bRightToLeft"
                                   CategoryName="ReadingDirection"
                                   Content="RightToLeft"
                                   Glyph="{dx:DXImage Image=ReadingDirectionRightToLeft_16x16.png}"
                                   Description="Changes direction into right to left"
                                   IsChecked="{Binding ElementName=richControl, Path=IsRightToLeft, Mode=TwoWay}" />
+                
                 <dxb:BarCheckItem Name="bLeftToRight"
                                   CategoryName="ReadingDirection"
                                   Content="LeftToRight"
@@ -114,12 +212,14 @@
                                   IsChecked="{Binding ElementName=richControl, Path=IsLeftToRight, Mode=TwoWay}" />
 
                 <dxb:BarItemLinkSeparator />
+                
                 <dxb:BarButtonItem Name="bIndentIncrease"
                                   CategoryName="Indent"
                                   Content="Indent Increase"
                                   Glyph="{dx:DXImage Image=IndentIncrease_RightToLeft_16x16.png}"
                                   Description="increase indent" 
                                   Command="{Binding ElementName=richControl, Path=IndentIncreaseCommand}"/>
+                
                 <dxb:BarButtonItem Name="bIndentDecrease"
                                   CategoryName="Indent"
                                   Content="Indent Decrease"
@@ -128,71 +228,6 @@
                                   Command="{Binding ElementName=richControl, Path=IndentDecreaseCommand}" />
 
                 <dxb:BarItemLinkSeparator />
-            <dxb:BarSplitButtonItem Name="bFontColor"
-                                        CategoryName="Format"
-                                        Content="Font _Color"
-                                        Glyph="{dx:DXImage Image=ChangeFontStyle_16x16.png}"
-                                        Hint="Font Color Dialog"
-                                        Description="Formats the selected text with the color you click."
-                                        ActAsDropDown="True">
-                <dxb:BarSplitButtonItem.PopupControl>
-                    <dxb:PopupControlContainer>
-                        <dxe:ColorEdit DefaultColor="Transparent"
-                                           EditValue="{Binding ElementName=richControl, Path=SelectionTextColor}"
-                                           DefaultColorButtonContent="No color"
-                                           ShowBorder="False"
-                                           CloseOwnerPopupOnClick="True" />
-                    </dxb:PopupControlContainer>
-                </dxb:BarSplitButtonItem.PopupControl>
-            </dxb:BarSplitButtonItem>
-                <dxb:BarSplitButtonItem Name="bBackgroundColor"
-                                        CategoryName="Format"
-                                        Content="Background _Color"
-                                        Glyph="{dx:DXImage Image=Highlight_16x16.png}"
-                                        Hint="Background Color Dialog"
-                                        Description="Formats the selected text Background with the color you click."
-                                        ActAsDropDown="True">
-                    <dxb:BarSplitButtonItem.PopupControl>
-                        <dxb:PopupControlContainer>
-                            <dxe:ColorEdit DefaultColor="Transparent"
-                                           EditValue="{Binding ElementName=richControl, Path=SelectionTextBackgroundColor}"
-                                           DefaultColorButtonContent="No color"
-                                           ShowBorder="False"
-                                           CloseOwnerPopupOnClick="True" />
-                        </dxb:PopupControlContainer>
-                    </dxb:BarSplitButtonItem.PopupControl>
-                </dxb:BarSplitButtonItem>
-                <dxb:BarItemLinkSeparator />
-                <dxb:BarEditItem Name="eFontFamily"
-                                 CategoryName="Format"
-                                 EditWidth="{Binding RelativeSource={RelativeSource Self}, Path=(dx:ThemeManager.TreeWalker), Converter={local:EditWidthConverter EditWidth=150}}"
-                                 ClosePopupOnChangingEditValue="True"
-                                 Description="Changes the font family of the selected text."
-                                 EditValue="{Binding ElementName=richControl, Path=SelectionFontFamily, Mode=TwoWay}">
-                <dxb:BarEditItem.EditSettings>
-                    <dxe:FontEditSettings AutoComplete="True" ValidateOnTextInput="False" FlowDirection="RightToLeft"/>
-                </dxb:BarEditItem.EditSettings>
-            </dxb:BarEditItem>
-            <dxb:BarEditItem Name="eFontSize"
-                                 CategoryName="Format"
-                                 EditWidth="{Binding RelativeSource={RelativeSource Self}, Path=(dx:ThemeManager.TreeWalker), Converter={local:EditWidthConverter EditWidth=60}}"
-                                 Description="Changes the font size of the selected text."
-                                 EditValue="{Binding ElementName=richControl, Path=SelectionFontSize, Mode=TwoWay}" >
-                <dxb:BarEditItem.EditSettings>
-                        <dxe:ComboBoxEditSettings x:Name="fontSizeSettings" PopupMaxHeight="250" IsTextEditable="False" FlowDirection="RightToLeft" ItemsSource="{Binding FontSizes}" />
-                </dxb:BarEditItem.EditSettings>
-            </dxb:BarEditItem>
-                <dxb:BarItemLinkSeparator />
-                <dxb:BarButtonItem Name="bIncreaseFontSize"
-                                  CategoryName="FontSize"
-                                  Glyph="{dx:DXImage Image=FontSizeIncrease_16x16.png}"
-                                  Description="increase font size"
-                                  Command="{Binding ElementName=richControl, Path=IncreaseFontSizeCommand}" />
-                <dxb:BarButtonItem Name="bDecreaseFontSize"
-                                  CategoryName="FontSize"
-                                  Glyph="{dx:DXImage Image=FontSizeDecrease_16x16.png}"
-                                  Description="decrease font size"
-                                  Command="{Binding ElementName=richControl, Path=DecreaseFontSizeCommand}" />
 
             </dxb:ToolBarControl>
             <!--<RichTextBox x:Uid="m_RTB" x:Name="m_RTB" DockPanel.Dock="Bottom" 
@@ -207,7 +242,14 @@
         </RichTextBox>-->
 
 
-            <utils:RichControl x:Name="richControl" AcceptsTab="True" TextChanged="RtbEditor_TextChanged" BorderThickness="0,1,0,1" Template="{StaticResource DemoRichControlTemplate}"/>
+            <utils:RichControl 
+                x:Name="richControl" 
+                TextChanged="RtbEditor_TextChanged" 
+                BorderThickness="0,1,0,1" 
+                Template="{StaticResource DemoRichControlTemplate}"
+                AcceptsTab="True" AcceptsReturn="True"
+				HorizontalScrollBarVisibility="Auto" 
+                VerticalScrollBarVisibility="Visible"/>
 
 
         </DockPanel>

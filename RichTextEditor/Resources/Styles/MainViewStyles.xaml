@@ -1,0 +1,265 @@
+﻿<ResourceDictionary
+	x:Uid="ResourceDictionary_1" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+
+    xmlns:d="http://schemas.microsoft.com/expression/interactivedesigner/2006"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d">
+    <LinearGradientBrush x:Uid="LinearGradientBrush_1" x:Key="NormalBrush" EndPoint="0,1" StartPoint="0,0">
+        <GradientStop x:Uid="GradientStop_1" Color="#EEE" Offset="0.0"/>
+        <GradientStop x:Uid="GradientStop_2" Color="#CCC" Offset="1.0"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Uid="LinearGradientBrush_2" x:Key="NormalBorderBrush" EndPoint="0,1" StartPoint="0,0">
+        <GradientStop x:Uid="GradientStop_3" Color="#CCC" Offset="0.0"/>
+        <GradientStop x:Uid="GradientStop_4" Color="#444" Offset="1.0"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Uid="LinearGradientBrush_3" x:Key="LightBrush" EndPoint="0,1" StartPoint="0,0">
+        <GradientStop x:Uid="GradientStop_5" Color="#FFF" Offset="0.0"/>
+        <GradientStop x:Uid="GradientStop_6" Color="#EEE" Offset="1.0"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Uid="LinearGradientBrush_4" x:Key="MouseOverBrush" EndPoint="0,1" StartPoint="0,0">
+        <GradientStop x:Uid="GradientStop_7" Color="#FFC5DDFF" Offset="0"/>
+        <GradientStop x:Uid="GradientStop_8" Color="#FF7FB5E2" Offset="1"/>
+        <GradientStop x:Uid="GradientStop_9" Color="#FF7FB5E2" Offset="0.514"/>
+        <GradientStop x:Uid="GradientStop_10" Color="#FFC5DDFF" Offset="0.51"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Uid="LinearGradientBrush_5" x:Key="PressedBrush" EndPoint="0,1" StartPoint="0,0">
+        <GradientStop x:Uid="GradientStop_11" Color="#FFB3C1D4" Offset="0"/>
+        <GradientStop x:Uid="GradientStop_12" Color="#FF8A9AA9" Offset="1"/>
+        <GradientStop x:Uid="GradientStop_13" Color="#FFC1D1E5" Offset="0.465"/>
+        <GradientStop x:Uid="GradientStop_14" Color="#FF91A2B2" Offset="0.485"/>
+        <GradientStop x:Uid="GradientStop_15" Color="#FFC0D0E4" Offset="0.48"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Uid="LinearGradientBrush_6" x:Key="PressedBorderBrush" EndPoint="0,1" StartPoint="0,0">
+        <GradientStop x:Uid="GradientStop_16" Color="#444" Offset="0.0"/>
+        <GradientStop x:Uid="GradientStop_17" Color="#888" Offset="1.0"/>
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Uid="SolidColorBrush_1" x:Key="DisabledForegroundBrush" Color="#888"/>
+    <SolidColorBrush x:Uid="SolidColorBrush_2" x:Key="DisabledBackgroundBrush" Color="#EEE"/>
+    <SolidColorBrush x:Uid="SolidColorBrush_3" x:Key="DisabledBorderBrush" Color="#AAA"/>
+
+    <SolidColorBrush x:Uid="SolidColorBrush_4" x:Key="WindowBackgroundBrush" Color="#FFF"/>
+
+    <LinearGradientBrush x:Uid="LinearGradientBrush_7" x:Key="DefaultedBorderBrush" EndPoint="0,1" StartPoint="0,0">
+        <GradientStop x:Uid="GradientStop_18" Color="#777" Offset="0.0"/>
+        <GradientStop x:Uid="GradientStop_19" Color="#000" Offset="1.0"/>
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Uid="LinearGradientBrush_8" x:Key="SelectedListBoxBrush" EndPoint="1,0.5" StartPoint="0,0.5">
+        <GradientStop x:Uid="GradientStop_20" Color="#33F7F7F7" Offset="0"/>
+        <GradientStop x:Uid="GradientStop_21" Color="#00FFFFFF" Offset="0.98"/>
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Uid="SolidColorBrush_5" x:Key="SolidBorderBrush" Color="#888"/>
+    <SolidColorBrush x:Uid="SolidColorBrush_6" x:Key="LightBorderBrush" Color="#AAA"/>
+    <SolidColorBrush x:Uid="SolidColorBrush_7" x:Key="LightColorBrush" Color="#DDD"/>
+
+    <SolidColorBrush x:Uid="SolidColorBrush_8" x:Key="GlyphBrush" Color="#444"/>
+
+    <Style x:Uid="Style_1" x:Key="HeaderStyle" TargetType="{x:Type TextBlock}">
+        <Setter x:Uid="Setter_1" Property="FontFamily" Value="Calibri"/>
+        <Setter x:Uid="Setter_2" Property="FontSize" Value="18"/>
+        <Setter x:Uid="Setter_3" Property="Foreground" Value="#FFFFFFFF"/>
+        <Setter x:Uid="Setter_4" Property="Margin" Value="10,0,10,10"/>
+    </Style>
+
+    <Style x:Uid="Style_2" x:Key="TabControl" TargetType="{x:Type TabControl}">
+        <Setter x:Uid="Setter_5" Property="Template">
+            <Setter.Value>
+                <ControlTemplate x:Uid="ControlTemplate_1" TargetType="{x:Type TabControl}">
+                    <Grid x:Uid="Grid_1" KeyboardNavigation.TabNavigation="Local">
+                        <Grid.RowDefinitions>
+                            <RowDefinition x:Uid="RowDefinition_1" Height="Auto"/>
+                            <RowDefinition x:Uid="RowDefinition_2" Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TabPanel x:Uid="HeaderPanel" Grid.Row="0" Margin="0,0,4,-1" x:Name="HeaderPanel" Background="Transparent" IsItemsHost="True" Panel.ZIndex="1" KeyboardNavigation.TabIndex="1"/>
+
+                        <Border x:Uid="Border" Grid.Row="1" x:Name="Border" Background="{DynamicResource WindowBackgroundBrush}" BorderBrush="{DynamicResource SolidBorderBrush}" BorderThickness="1" CornerRadius="2" KeyboardNavigation.DirectionalNavigation="Contained" KeyboardNavigation.TabNavigation="Local" KeyboardNavigation.TabIndex="2">
+
+                            <ContentPresenter x:Uid="PART_SelectedContentHost" Margin="4" x:Name="PART_SelectedContentHost" ContentSource="SelectedContent"/>
+
+                        </Border>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger x:Uid="Trigger_1" Property="IsEnabled" Value="False">
+                            <Setter x:Uid="Setter_6" Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}"/>
+                            <Setter x:Uid="Setter_7" Property="BorderBrush" Value="{DynamicResource DisabledBorderBrush}" TargetName="Border"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style  x:Uid="Style_3" d:IsControlPart="True" TargetType="{x:Type TabItem}">
+        <Setter x:Uid="Setter_8" Property="Template">
+            <Setter.Value>
+                <ControlTemplate x:Uid="ControlTemplate_2" TargetType="{x:Type TabItem}">
+                    <Grid x:Uid="Grid_2">
+                        <Border x:Uid="Border_1" Margin="0,0,-4,0" x:Name="Border" Background="{DynamicResource LightBrush}" BorderBrush="{DynamicResource SolidBorderBrush}" BorderThickness="1,1,1,1" CornerRadius="2,12,0,0">
+                            <ContentPresenter x:Uid="ContentSite" HorizontalAlignment="Center" Margin="12,2,12,2" x:Name="ContentSite" VerticalAlignment="Center" RecognizesAccessKey="True" ContentSource="Header"/>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger x:Uid="Trigger_2" Property="IsSelected" Value="True">
+                            <Setter x:Uid="Setter_9" Property="Panel.ZIndex" Value="100"/>
+                            <Setter x:Uid="Setter_10" Property="Background" Value="{DynamicResource WindowBackgroundBrush}" TargetName="Border"/>
+                            <Setter x:Uid="Setter_11" Property="BorderThickness" Value="1,1,1,0" TargetName="Border"/>
+                        </Trigger>
+                        <Trigger x:Uid="Trigger_3" Property="IsEnabled" Value="False">
+                            <Setter x:Uid="Setter_12" Property="Background" Value="{DynamicResource DisabledBackgroundBrush}" TargetName="Border"/>
+                            <Setter x:Uid="Setter_13" Property="BorderBrush" Value="{DynamicResource DisabledBorderBrush}" TargetName="Border"/>
+                            <Setter x:Uid="Setter_14" Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <SolidColorBrush x:Uid="SolidColorBrush_9" x:Key="SolidBrush" Color="#FF202020"/>
+
+    <LinearGradientBrush x:Uid="LinearGradientBrush_9" x:Key="PanelGradientBrush" EndPoint="1,0.5" StartPoint="0,0.5">
+        <GradientStop x:Uid="GradientStop_22" Color="#FF555555" Offset="0"/>
+        <GradientStop x:Uid="GradientStop_23" Color="#FF1C1C1C" Offset="1"/>
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Uid="LinearGradientBrush_10" x:Key="TextBoxBorderBrush" EndPoint="0,20" StartPoint="0,0" MappingMode="Absolute">
+        <GradientStop x:Uid="GradientStop_24" Color="#FF2A3567" Offset="0.05"/>
+        <GradientStop x:Uid="GradientStop_25" Color="#FFD0D0D0" Offset="0.07"/>
+        <GradientStop x:Uid="GradientStop_26" Color="#FFACAEB1" Offset="1"/>
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Uid="SolidColorBrush_10" x:Key="FontColor" Color="#FFE6E6E6"/>
+
+    <SolidColorBrush x:Uid="SolidColorBrush_11" x:Key="GrayFontColor" Color="#FF888888"/>
+
+    <LinearGradientBrush x:Uid="LinearGradientBrush_11" x:Key="SideGradientBrush" EndPoint="0.439,0.967" StartPoint="0.561,0.033">
+        <GradientStop x:Uid="GradientStop_27" Color="#FF202020" Offset="0"/>
+        <GradientStop x:Uid="GradientStop_28" Color="#FF545454" Offset="1"/>
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Uid="SolidColorBrush_12" x:Key="BorderBrush" Color="#FF747474"/>
+
+    <Thickness x:Uid="Thickness_1" x:Key="BorderThickness">1,1,1,1</Thickness>
+
+    <Style x:Uid="Style_4" x:Key="BorderStyle" TargetType="{x:Type Border}">
+        <Setter x:Uid="Setter_15" Property="BorderThickness" Value="{DynamicResource BorderThickness}"/>
+        <Setter x:Uid="Setter_16" Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+        <Setter x:Uid="Setter_17" Property="CornerRadius" Value="10,10,10,10"/>
+    </Style>
+
+    <Thickness x:Uid="Thickness_2" x:Key="LabelPadding">5,8,5,2</Thickness>
+
+    <Style x:Uid="Style_5" TargetType="{x:Type Label}">
+        <Setter x:Uid="Setter_18" Property="Foreground" Value="{DynamicResource FontColor}"/>
+        <Setter x:Uid="Setter_19" Property="FontWeight" Value="Normal"/>
+        <Setter x:Uid="Setter_20" Property="Padding" Value="{DynamicResource LabelPadding}"/>
+        <Setter x:Uid="Setter_21" Property="FontFamily" Value="Calibri"/>
+        <Setter x:Uid="Setter_22" Property="FontSize" Value="13"/>
+    </Style>
+
+    <Style x:Uid="Style_6" TargetType="{x:Type TextBlock}">
+        <Setter x:Uid="Setter_23" Property="FontFamily" Value="Calibri"/>
+    </Style>
+
+
+    <LinearGradientBrush x:Uid="LinearGradientBrush_12" x:Key="InputBackgroundBrush" EndPoint="0.504,0.351" StartPoint="0.504,-0.319">
+        <GradientStop x:Uid="GradientStop_29" Color="#FF000000" Offset="0.416"/>
+        <GradientStop x:Uid="GradientStop_30" Color="#FF4A5790" Offset="0.54"/>
+    </LinearGradientBrush>
+
+    <Style x:Uid="Style_7" x:Key="NormalButtonStyle" TargetType="{x:Type Button}">
+        <Setter x:Uid="Setter_24" Property="Foreground" Value="#FFFFFF" />
+        <Setter x:Uid="Setter_25" Property="Width" Value="120"/>
+        <Setter x:Uid="Setter_26" Property="Height" Value="25"/>
+        <Setter x:Uid="Setter_27" Property="FontSize" Value="10"/>
+        <Setter x:Uid="Setter_28" Property="Template">
+            <Setter.Value>
+                <ControlTemplate x:Uid="ControlTemplate_3" TargetType="{x:Type Button}">
+                    <Grid x:Uid="Grid_3">
+                        <Rectangle x:Uid="Rectangle" x:Name="Rectangle" Stroke="#FF051F42" StrokeMiterLimit="1.000000" StrokeThickness="0.500000" RadiusX="5" RadiusY="5">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush x:Uid="LinearGradientBrush_13" EndPoint="0.501,0.039" StartPoint="0.501,0.971">
+                                    <GradientStop x:Uid="GradientStop_31" Color="#FF1F317D" Offset="0.101"/>
+                                    <GradientStop x:Uid="GradientStop_32" Color="#FF1F317D" Offset="0.49"/>
+                                    <GradientStop x:Uid="GradientStop_33" Color="#FF6C8EBD" Offset="0.51"/>
+                                    <GradientStop x:Uid="GradientStop_34" Color="#FF283D8C" Offset="0"/>
+                                    <GradientStop x:Uid="GradientStop_35" Color="#FF7094C7" Offset="0.986"/>
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <ContentPresenter x:Uid="ContentPresenter_1" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" RecognizesAccessKey="True"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger x:Uid="Trigger_4" Property="IsKeyboardFocused" Value="true"/>
+                        <Trigger x:Uid="Trigger_5" Property="IsMouseOver" Value="true">
+                            <Setter x:Uid="Setter_29" Property="Fill" TargetName="Rectangle">
+                                <Setter.Value>
+                                    <LinearGradientBrush x:Uid="LinearGradientBrush_14" EndPoint="0.501,0.039" StartPoint="0.501,0.971">
+                                        <GradientStop x:Uid="GradientStop_36" Color="#FF2C558C" Offset="0.101"/>
+                                        <GradientStop x:Uid="GradientStop_37" Color="#FF1F317D" Offset="0.49"/>
+                                        <GradientStop x:Uid="GradientStop_38" Color="#FF9DB5D7" Offset="0.51"/>
+                                        <GradientStop x:Uid="GradientStop_39" Color="#FF244AAF" Offset="0"/>
+                                        <GradientStop x:Uid="GradientStop_40" Color="#FF87A4D9" Offset="0.986"/>
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Uid="Style_8" x:Key="BlackButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource NormalButtonStyle}">
+        <Setter x:Uid="Setter_30" Property="Template">
+            <Setter.Value>
+                <ControlTemplate x:Uid="ControlTemplate_4" TargetType="{x:Type Button}">
+                    <Grid x:Uid="Grid_4">
+                        <Rectangle x:Uid="rectangle" Stroke="#FF000000" StrokeMiterLimit="1.000000" StrokeThickness="0.500000" RadiusX="5" RadiusY="5" x:Name="rectangle">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush x:Uid="LinearGradientBrush_15" EndPoint="0.501,0.039" StartPoint="0.501,0.971">
+                                    <GradientStop x:Uid="GradientStop_41" Color="#FF1E1E1E" Offset="0.101"/>
+                                    <GradientStop x:Uid="GradientStop_42" Color="#FF1E1E1E" Offset="0.49"/>
+                                    <GradientStop x:Uid="GradientStop_43" Color="#FF5B5959" Offset="0.51"/>
+                                    <GradientStop x:Uid="GradientStop_44" Color="#FF2F2F2F" Offset="0"/>
+                                    <GradientStop x:Uid="GradientStop_45" Color="#FF5B5959" Offset="0.986"/>
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <ContentPresenter x:Uid="ContentPresenter_2" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" RecognizesAccessKey="True"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger x:Uid="Trigger_6" Property="IsKeyboardFocused" Value="true"/>
+                        <Trigger x:Uid="Trigger_7" Property="IsMouseOver" Value="true">
+                            <Setter x:Uid="Setter_31" Property="Fill" TargetName="rectangle">
+                                <Setter.Value>
+                                    <LinearGradientBrush x:Uid="LinearGradientBrush_16" EndPoint="0.501,0.039" StartPoint="0.501,0.971">
+                                        <GradientStop x:Uid="GradientStop_46" Color="#FF3A3A3A" Offset="0.101"/>
+                                        <GradientStop x:Uid="GradientStop_47" Color="#FF1E1E1E" Offset="0.49"/>
+                                        <GradientStop x:Uid="GradientStop_48" Color="#FFB0B0B0" Offset="0.51"/>
+                                        <GradientStop x:Uid="GradientStop_49" Color="#FF656565" Offset="0"/>
+                                        <GradientStop x:Uid="GradientStop_50" Color="#FF989898" Offset="0.938"/>
+                                        <GradientStop x:Uid="GradientStop_51" Color="#FF7F7F7F" Offset="0.986"/>
+                                    </LinearGradientBrush>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Uid="Style_9" TargetType="{x:Type Button}" BasedOn="{StaticResource NormalButtonStyle}"/>
+    <SolidColorBrush x:Uid="SolidColorBrush_13" x:Key="LogoBrush" Color="#FF93999C"/>
+
+    <LinearGradientBrush x:Uid="LinearGradientBrush_17" x:Key="MenuPressedBrush" StartPoint="0.500023,0.999996" EndPoint="0.500023,4.37507e-006">
+        <GradientStop x:Uid="GradientStop_52" Color="#FF875225" Offset="0"/>
+        <GradientStop x:Uid="GradientStop_53" Color="#FF221E1F" Offset="0.960674"/>
+        <GradientStop x:Uid="GradientStop_54" Color="#FF221E1F" Offset="1"/>
+    </LinearGradientBrush>
+</ResourceDictionary>
