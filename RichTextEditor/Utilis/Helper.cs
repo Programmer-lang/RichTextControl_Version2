@@ -19,9 +19,13 @@ namespace RichTextEditor.Utilis
 {
     internal class Helper
     {
+
+        //public static RoutedCommand HotKeyTab = new RoutedCommand();
+
+
         // Build a table with a given number of rows and columns
         internal static Table UpdateTable(Table table,
-                                         int rowCount, 
+                                         int rowCount,
                                          int columnCount,
                                          Brush borderBrush,
                                          Thickness borderThickness,
@@ -34,7 +38,8 @@ namespace RichTextEditor.Utilis
             table.BorderThickness = borderThickness;
             table.MouseEnter += new MouseEventHandler(table_MouseEnter);
             table.MouseLeave += new MouseEventHandler(table_MouseLeave);
-         
+            //table.KeyUp += new KeyEventHandler(table_KeyUp);
+
             if (0 >= table.Columns.Count)
             {
                 for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
@@ -52,14 +57,14 @@ namespace RichTextEditor.Utilis
                 }
             }
 
-            foreach(TableRowGroup rowGroup in table.RowGroups)
+            foreach (TableRowGroup rowGroup in table.RowGroups)
             {
                 foreach (TableRow row in rowGroup.Rows)
                 {
                     foreach (TableCell cell in row.Cells)
                     {
                         cell.BorderBrush = borderBrush;
-                        cell.BorderThickness = borderThickness; 
+                        cell.BorderThickness = borderThickness;
                     }
                 }
             }
@@ -67,7 +72,15 @@ namespace RichTextEditor.Utilis
             return table;
         }
 
-        internal static Table BuildTable(int rowCount, 
+        //public static void table_KeyUp(object sender, KeyEventArgs e)
+        //{
+        //    if (e.Key == Key.Tab)
+        //    {
+        //        MessageBox.Show("tab");
+        //    }
+        //}
+
+        internal static Table BuildTable(int rowCount,
                                          int columnCount,
                                          Brush borderBrush,
                                          Thickness borderThickness,
@@ -75,20 +88,24 @@ namespace RichTextEditor.Utilis
                                          TableType tableType)
         {
             Table table = new Table();
-            
+
             table.Tag = tableType;
             table.CellSpacing = 0;
             table.BorderBrush = borderBrush;
             table.BorderThickness = borderThickness;
+            //table.KeyDown += new KeyEventHandler(cell_KeyUp);
 
-          //  table.for
+            //  table.for
 
             table.MouseEnter += new MouseEventHandler(table_MouseEnter);
             table.MouseLeave += new MouseEventHandler(table_MouseLeave);
+            // table.KeyUp += new KeyEventHandler(table_KeyUp);
 
             for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
             {
                 TableColumn tableColumn = new TableColumn();
+                //tableColumn.KeyDown += new KeyEventHandler(cell_KeyUp);
+
                 tableColumn.Width = double.IsNaN(dLineHeight) ? GridLength.Auto : new GridLength(dLineHeight);
                 table.Columns.Add(tableColumn);
             }
@@ -96,7 +113,7 @@ namespace RichTextEditor.Utilis
             TableRowGroup rowGroup = new TableRowGroup();
             for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
             {
-                TableRow row = BuildTableRow(columnCount,borderBrush,borderThickness,dLineHeight);
+                TableRow row = BuildTableRow(columnCount, borderBrush, borderThickness, dLineHeight);
                 rowGroup.Rows.Add(row);
             }
             table.RowGroups.Add(rowGroup);
@@ -132,8 +149,9 @@ namespace RichTextEditor.Utilis
             if (null != tableCell && tableCell.IsMouseDirectlyOver)
             {
                 //Point point = e.GetPosition(tableCell);
-                
-                tableCell.Cursor = Cursors.SizeWE;
+
+                tableCell.Cursor = Cursors.IBeam;
+                // tableCell.Cursor
             }
         }
 
@@ -172,7 +190,7 @@ namespace RichTextEditor.Utilis
                     TableDragHandle.RowIdx = tableRow.Cells.IndexOf(tableCell);
                     TableDragHandle.DragStartPoint = e.GetPosition(tableCell);
                     GridLength gridLength = TableDragHandle.LastEnteredObjectTable.Columns[TableDragHandle.RowIdx].Width;
-                    if(GridLength.Auto == gridLength)
+                    if (GridLength.Auto == gridLength)
                     {
                         Debug.WriteLine("cell_MouseLeftButtonDown - width is auto - return ");
                         return;
@@ -218,13 +236,14 @@ namespace RichTextEditor.Utilis
                                                 double dLineHeight)
         {
             TableRow row = new TableRow();
-            
+
+            //row.KeyDown += new KeyEventHandler(cell_KeyUp);
             for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
             {
-                TableCell cell = BuildTableCell(borderBrush,borderThickness,dLineHeight);   
+                TableCell cell = BuildTableCell(borderBrush, borderThickness, dLineHeight);
                 row.Cells.Add(cell);
             }
-            
+
             return row;
         }
 
@@ -235,13 +254,50 @@ namespace RichTextEditor.Utilis
             TableCell cell = new TableCell(new Paragraph());
             cell.BorderBrush = borderBrush;
             cell.BorderThickness = borderThickness;
-           // cell.Background = Brushes.Red;
-            cell.MouseLeftButtonDown +=new MouseButtonEventHandler(cell_MouseLeftButtonDown);
+            // cell.Background = Brushes.Red;
+            cell.MouseLeftButtonDown += new MouseButtonEventHandler(cell_MouseLeftButtonDown);
             cell.MouseLeftButtonUp += new MouseButtonEventHandler(cell_MouseLeftButtonUp);
             cell.MouseMove += new MouseEventHandler(cell_MouseMove);
             cell.MouseEnter += new MouseEventHandler(cell_MouseEnter);
+            //cell.
+            //cell.MouseDown += Cell_MouseDown;
+            cell.KeyDown += new KeyEventHandler(Cell_KeyDown);
+            //cell.CommandBindings.Add(new CommandBinding(HotKeyTab, TabCommandExecuted));
+            //HotKeyTab.InputGestures.Add(new KeyGesture(Key.Tab));
+            //cell.KeyDown += new KeyEventHandler(cell_KeyUp);
+            cell.TextAlignment = TextAlignment.Center;
+            //cell.IsKeyboardFocusWithinChanged += Cell_IsKeyboardFocusWithinChanged;
             return cell;
         }
+
+        public static void Cell_KeyDown(object sender, KeyEventArgs e)
+        {
+            MessageBox.Show("keyboard");
+        }
+
+        //private static void Cell_MouseDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    MessageBox.Show("keyboard");
+        //}
+
+        //private static void Cell_IsKeyboardFocusWithinChanged(object sender, DependencyPropertyChangedEventArgs e)
+        //{
+        //    MessageBox.Show("keyboard");
+        //}
+
+        //private static void TabCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        //{
+        //    MessageBox.Show("tab");
+        //}
+
+
+        //public static void cell_KeyUp(object sender, KeyEventArgs e)
+        //{
+        //    if (e.Key == Key.Tab)
+        //    {
+        //        MessageBox.Show("tab");
+        //    }
+        //}
 
         internal static bool HasAncestor(TextPointer position, Type ancestorType)
         {
@@ -281,13 +337,13 @@ namespace RichTextEditor.Utilis
                     {
                         cont = GetInlineUICont(inline as Span);
                     }
-                    if(null != cont)
+                    if (null != cont)
                     {
                         break;
                     }
                 }
             }
-            else if(run != null && run.NextInline != null)
+            else if (run != null && run.NextInline != null)
             {
                 //while(run.NextInline != null)
                 cont = GetInlineFromCollection(run.SiblingInlines);
@@ -304,7 +360,7 @@ namespace RichTextEditor.Utilis
                 cont = inline as InlineUIContainer;
                 if (null == cont)
                 {
-                    cont = GetInlineUICont(inline as Span); 
+                    cont = GetInlineUICont(inline as Span);
                 }
 
                 if (null != cont)
@@ -331,10 +387,10 @@ namespace RichTextEditor.Utilis
                     {
                         cont = GetInlineUICont(inline as Span);
                     }
-                    if(null != cont)
+                    if (null != cont)
                     {
                         break;
-                    }                
+                    }
                 }
             }
             return cont;
@@ -375,7 +431,7 @@ namespace RichTextEditor.Utilis
             {
                 return 0;
             }
-            
+
             int lineNumber = 0;
             int linesMoved;
             do
@@ -409,4 +465,18 @@ namespace RichTextEditor.Utilis
             return columnNumber;
         }
     }
+
+
+    //public class MyCell : TableCell
+    //    {
+    //    public MyCell(Block blockItem) : base(blockItem)
+    //    {
+    //    }
+
+    //    protected override void OnIsKeyboardFocusedChanged(DependencyPropertyChangedEventArgs e)
+    //    {
+    //        base.OnIsKeyboardFocusedChanged(e);
+    //    }
+
+    //}
 }

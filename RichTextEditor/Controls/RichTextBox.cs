@@ -473,8 +473,68 @@ namespace Utils {
 
 
         protected override void OnKeyUp(System.Windows.Input.KeyEventArgs e) {
+            
+
+
             base.OnKeyUp(e);
             UpdateSelectionProperties();
+        }
+
+        protected override void OnPreviewKeyDown(KeyEventArgs e)
+        {
+
+            if (e.Key == Key.Tab)
+            {
+                //var paragraph = this.CaretPosition.Paragraph;
+
+                //var run = paragraph.Inlines.FirstInline as Run;
+
+                //if (run != null)
+                //{
+
+                //    TableCell cell = paragraph.Parent as TableCell;
+
+                //    if (cell != null)
+                //    {
+
+                //        if(tableRowGroup.Rows.IndexOf(tableRow))
+                //    }
+                //}
+
+                TextPointer insertionPosition = Selection.Start;
+
+                TableCell tableCell = Helper.GetTableCellAncestor(insertionPosition);
+                if (tableCell == null)
+                {
+                    return;
+                }
+
+
+                TableRow tableRow = tableCell.Parent as TableRow;
+                if (tableRow == null)
+                {
+                    return;
+                }
+
+                TableRowGroup tableRowGroup = tableRow.Parent as TableRowGroup;
+                if (tableRowGroup == null)
+                {
+                    return;
+                }
+                //Table table = (Table)tableRowGroup.Parent;
+
+                int rowIndex = tableRowGroup.Rows.IndexOf(tableRow);
+                int columnIndex = tableRow.Cells.IndexOf(tableCell);
+
+                if (columnIndex == tableRow.Cells.Count - 1 && rowIndex == tableRowGroup.Rows.Count - 1)
+                {
+                    InsertRowBelow();
+                }
+
+
+            }
+
+            base.OnPreviewKeyDown(e);
         }
         protected override void OnSelectionChanged(RoutedEventArgs e) {
             base.OnSelectionChanged(e);
