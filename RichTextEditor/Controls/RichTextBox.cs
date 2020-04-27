@@ -24,6 +24,9 @@ using ListItem = System.Windows.Documents.ListItem;
 using BlockCollection = System.Windows.Documents.BlockCollection;
 using RichTextEditor;
 using DevExpress.Xpf.Dialogs;
+using System.Windows.Controls;
+using System.Linq;
+using System.Collections;
 
 namespace Utils {
     public class RichControl : System.Windows.Controls.RichTextBox {
@@ -1033,14 +1036,55 @@ namespace Utils {
         }
         protected bool? IsUnderlineCore {
             get {
-                object value = Selection.GetPropertyValue(Inline.TextDecorationsProperty);
-                return (value == DependencyProperty.UnsetValue) ? false : value != null && System.Windows.TextDecorations.Underline.Equals(value);
+
+
+                var sel = Selection;
+                var value = GetPropertyValue(sel, Paragraph.TextDecorationsProperty);
+                TextDecorationCollection textDecorationCollection = value as TextDecorationCollection;
+
+                if (textDecorationCollection != null)
+                {
+                    foreach (TextDecoration textDecoration in textDecorationCollection)
+                    {
+                        if (textDecoration.Location == TextDecorationLocation.Underline)
+                        {
+                            return true;
+                        }
+                        
+                    }
+                }
+
+
+
+                return false; 
+
+                //return (value == DependencyProperty.UnsetValue) ? false : value != null && value.Equals(TextDecorations.Underline); //((TextDecorationCollection)(value)).Count > 0;
             }
             set {
                 Selection.ApplyPropertyValue(Run.TextDecorationsProperty, value.Value ? System.Windows.TextDecorations.Underline : null);
             }
 
         }
+
+        private Object GetPropertyValue(TextRange textRange, DependencyProperty formattingProperty)
+        {
+            Object value = null;
+            var pointer = textRange.Start;
+            if (pointer is TextPointer)
+            {
+                Boolean needsContinue = true;
+                DependencyObject element = ((TextPointer)pointer).Parent as TextElement;
+                while (needsContinue && (element is Inline || element is Paragraph || element is TextBlock))
+                {
+                    value = element.GetValue(formattingProperty);
+                    IEnumerable seq = value as IEnumerable;
+                    needsContinue = (seq == null) ? value == null : seq.Cast<Object>().Count() == 0;
+                    element = element is TextElement ? ((TextElement)element).Parent : null;
+                }
+            }
+            return value;
+        }
+
 
         protected TextMarkerStyle NumberMarkerStyleCore
         {
