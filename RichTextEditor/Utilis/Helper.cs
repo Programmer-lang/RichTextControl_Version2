@@ -29,7 +29,7 @@ namespace RichTextEditor.Utilis
                                          TableType tableType)
         {
             table.Tag = tableType;
-            table.CellSpacing = 2;
+            table.CellSpacing = 0;
             table.BorderBrush = borderBrush;
             table.BorderThickness = borderThickness;
             table.MouseEnter += new MouseEventHandler(table_MouseEnter);
@@ -75,8 +75,9 @@ namespace RichTextEditor.Utilis
                                          TableType tableType)
         {
             Table table = new Table();
+            
             table.Tag = tableType;
-            table.CellSpacing = 2;
+            table.CellSpacing = 0;
             table.BorderBrush = borderBrush;
             table.BorderThickness = borderThickness;
 
@@ -233,8 +234,8 @@ namespace RichTextEditor.Utilis
         {
             TableCell cell = new TableCell(new Paragraph());
             cell.BorderBrush = borderBrush;
-            cell.BorderThickness = borderThickness; 
-
+            cell.BorderThickness = borderThickness;
+           // cell.Background = Brushes.Red;
             cell.MouseLeftButtonDown +=new MouseButtonEventHandler(cell_MouseLeftButtonDown);
             cell.MouseLeftButtonUp += new MouseButtonEventHandler(cell_MouseLeftButtonUp);
             cell.MouseMove += new MouseEventHandler(cell_MouseMove);

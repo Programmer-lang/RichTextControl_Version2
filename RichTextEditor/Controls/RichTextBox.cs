@@ -23,6 +23,7 @@ using Inline = System.Windows.Documents.Inline;
 using ListItem = System.Windows.Documents.ListItem;
 using BlockCollection = System.Windows.Documents.BlockCollection;
 using RichTextEditor;
+using DevExpress.Xpf.Dialogs;
 
 namespace Utils {
     public class RichControl : System.Windows.Controls.RichTextBox {
@@ -663,19 +664,30 @@ namespace Utils {
             //    range.Load(fileStream, System.Windows.DataFormats.Rtf);
             //}
 
-            OpenFileDialog openFileDialog = new OpenFileDialog();
+            var openDialog = GetOpenDialog();
+            if (openDialog.ShowDialog().Value)
+            {
+            //    foreach (var file in openDialog.FileNames)
+            //    {
+            //        Photos.Add(ImageHelper.GetJPGPhoto(file));
+            //        CopyPhoto(file, GalleryDirectory + "\\" + Path.GetFileName(file));
+            //    }
+
+            //}
+
+            //    OpenFileDialog openFileDialog = new OpenFileDialog();
             
 
-            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            openFileDialog.Multiselect = false;
-            openFileDialog.Title = "open file";
-            openFileDialog.Filter = "Rich Text Format (*.rtf,*doc,*.docx)|*.rtf;*doc;*.docx";
+            //openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            //openFileDialog.Multiselect = false;
+            //openFileDialog.Title = "open file";
+            //openFileDialog.Filter = "Rich Text Format (*.rtf,*doc,*.docx)|*.rtf;*doc;*.docx";
 
-            if (true == openFileDialog.ShowDialog())
-            {
+            //if (true == openFileDialog.ShowDialog())
+            //{
                 try
                 { 
-                string fileName = openFileDialog.FileName;
+                string fileName = openDialog.FileName;
 
                 string ext = Path.GetExtension(fileName);
 
@@ -693,6 +705,18 @@ namespace Utils {
             }
 
 
+        }
+
+
+        DXOpenFileDialog GetOpenDialog()
+        {
+            return new DXOpenFileDialog()
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                Filter = "Rich Text Format (*.rtf,*doc,*.docx)|*.rtf;*doc;*.docx",
+                Title = "Choose file",
+                Multiselect = false,
+            };
         }
 
 
@@ -772,14 +796,20 @@ namespace Utils {
                 //}
 
                 SaveFileDialog savefile = new SaveFileDialog();
-                // set a default file name  
-                savefile.FileName = "unknown.doc";
-                // set filters - this can be done in properties as well  
-                savefile.Filter = "Document files (*.rtf)|*.rtf";
-                if (savefile.ShowDialog() == true)
-                {
-                    TextRange t = new TextRange(Document.ContentStart, Document.ContentEnd);
-                    FileStream file = new FileStream(savefile.FileName, FileMode.Create);
+                //// set a default file name  
+                //savefile.FileName = "unknown.doc";
+                //// set filters - this can be done in properties as well  
+                //savefile.Filter = "Document files (*.rtf)|*.rtf";
+                //if (savefile.ShowDialog() == true)
+                //{
+
+                    var saveDialog = GetSaveDialog();
+                    if (saveDialog.ShowDialog().Value)
+                    {
+                       // var file = saveDialog.FileName;
+
+                        TextRange t = new TextRange(Document.ContentStart, Document.ContentEnd);
+                    FileStream file = new FileStream(saveDialog.FileName, FileMode.Create);
                     t.Save(file, System.Windows.DataFormats.Rtf);
                     file.Close();
                 }
@@ -790,6 +820,18 @@ namespace Utils {
                 throw;
             }
         }
+
+        DXSaveFileDialog GetSaveDialog()
+        {
+            return new DXSaveFileDialog()
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                DefaultExt = "rtf",
+                Title = "Save file",
+            };
+        }
+
+
 
         protected bool CanInsertTableCommandExecute() { return true; }
         protected void InsertTableCommandExecute()

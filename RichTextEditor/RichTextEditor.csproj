@@ -34,6 +34,7 @@
   <ItemGroup>
     <Reference Include="DevExpress.Mvvm.v19.2, Version=19.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Core.v19.2, Version=19.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Dialogs.v19.2, Version=19.2.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="SautinSoft.Document, Version=4.4.4.8, Culture=neutral, PublicKeyToken=e759c76c7515592a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>UsedReferences\SautinSoft.Document.dll</HintPath>
@@ -63,6 +64,9 @@
     <Compile Include="Utilis\TableColumnInfo.cs" />
     <Compile Include="Utilis\TableCommands.cs" />
     <Compile Include="Utilis\TableDragHandle.cs" />
+    <Compile Include="Utilis\dlgTableProperties.xaml.cs">
+      <DependentUpon>dlgTableProperties.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utilis\TablePropertiesDialog.xaml.cs">
       <DependentUpon>TablePropertiesDialog.xaml</DependentUpon>
     </Compile>
@@ -79,6 +83,10 @@
       <DependentUpon>RichTextEditor.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Utilis\dlgTableProperties.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Utilis\TablePropertiesDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
