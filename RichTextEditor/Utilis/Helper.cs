@@ -261,7 +261,7 @@ namespace RichTextEditor.Utilis
             cell.MouseEnter += new MouseEventHandler(cell_MouseEnter);
             //cell.
             //cell.MouseDown += Cell_MouseDown;
-            cell.KeyDown += new KeyEventHandler(Cell_KeyDown);
+            //cell.KeyDown += new KeyEventHandler(Cell_KeyDown);
             //cell.CommandBindings.Add(new CommandBinding(HotKeyTab, TabCommandExecuted));
             //HotKeyTab.InputGestures.Add(new KeyGesture(Key.Tab));
             //cell.KeyDown += new KeyEventHandler(cell_KeyUp);
@@ -270,10 +270,10 @@ namespace RichTextEditor.Utilis
             return cell;
         }
 
-        public static void Cell_KeyDown(object sender, KeyEventArgs e)
-        {
-            MessageBox.Show("keyboard");
-        }
+        //public static void Cell_KeyDown(object sender, KeyEventArgs e)
+        //{
+        //    MessageBox.Show("keyboard");
+        //}
 
         //private static void Cell_MouseDown(object sender, MouseButtonEventArgs e)
         //{
