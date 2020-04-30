@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestApp"
         xmlns:rte="clr-namespace:RichTextEditor;assembly=RichTextEditor"
-        mc:Ignorable="d"
+        mc:Ignorable="d" 
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <rte:RichTextEditor AllowEditing="True" IsToolBarVisible="True"/>
+        <rte:RichTextEditor AllowEditing="True" IsToolBarVisible="True" FontFamily="Times New Roman" FontSize="12.0pt"/>
+        <!---->
     </Grid>
 </Window>

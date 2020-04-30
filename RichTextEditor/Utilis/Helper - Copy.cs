@@ -13,29 +13,14 @@ using System.Threading;
 using System.Windows.Controls;
 using System.Collections;
 using System.Diagnostics;
-using Utilis;
-using RichTextEditor.Utilis;
-using System.Runtime.InteropServices;
-using System.IO;
-using System.Reflection;
-using DevExpress.Xpf.Core.Internal;
-using System.Linq;
+using Adastra.RichEditorLibrary;
 
-namespace RichTextEditor
+namespace RichTextEditor.Utilis
 {
-
-   
     internal class Helper
     {
-          static Assembly _assembly = Assembly.GetExecutingAssembly();
-          static Stream stream = _assembly.GetManifestResourceStream(_assembly.GetManifestResourceNames().Single(s => s.Contains("SolidArrow")));
-        
 
-        //  private static System.IO.MemoryStream cursorMemoryStream = new System.IO.MemoryStream(_assembly.GetManifestResourceStream("RichTextEditor.Resources.SolidArrow") );
-
-       // private static stream = EmbeddedResource.ExecutingResources.GetStream("filename.txt");
-
-        public static Cursor newCursor = new Cursor(stream);
+        //public static RoutedCommand HotKeyTab = new RoutedCommand();
 
 
         // Build a table with a given number of rows and columns
@@ -48,12 +33,12 @@ namespace RichTextEditor
                                          TableType tableType)
         {
             table.Tag = tableType;
-            table.CellSpacing = 25.0;
+            table.CellSpacing = 0;
             table.BorderBrush = borderBrush;
             table.BorderThickness = borderThickness;
             table.MouseEnter += new MouseEventHandler(table_MouseEnter);
             table.MouseLeave += new MouseEventHandler(table_MouseLeave);
-           
+            //table.KeyUp += new KeyEventHandler(table_KeyUp);
 
             if (0 >= table.Columns.Count)
             {
@@ -87,6 +72,14 @@ namespace RichTextEditor
             return table;
         }
 
+        //public static void table_KeyUp(object sender, KeyEventArgs e)
+        //{
+        //    if (e.Key == Key.Tab)
+        //    {
+        //        MessageBox.Show("tab");
+        //    }
+        //}
+
         internal static Table BuildTable(int rowCount,
                                          int columnCount,
                                          Brush borderBrush,
@@ -95,19 +88,24 @@ namespace RichTextEditor
                                          TableType tableType)
         {
             Table table = new Table();
-            
+
             table.Tag = tableType;
-            table.CellSpacing = 2;
+            table.CellSpacing = 0;
             table.BorderBrush = borderBrush;
             table.BorderThickness = borderThickness;
+            //table.KeyDown += new KeyEventHandler(cell_KeyUp);
+
+            //  table.for
+
             table.MouseEnter += new MouseEventHandler(table_MouseEnter);
             table.MouseLeave += new MouseEventHandler(table_MouseLeave);
-            
+            // table.KeyUp += new KeyEventHandler(table_KeyUp);
 
             for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
             {
                 TableColumn tableColumn = new TableColumn();
-              //  tableColumn.IsMouseDirectlyOverChanged += TableColumn_IsMouseDirectlyOverChanged;
+                //tableColumn.KeyDown += new KeyEventHandler(cell_KeyUp);
+
                 tableColumn.Width = double.IsNaN(dLineHeight) ? GridLength.Auto : new GridLength(dLineHeight);
                 table.Columns.Add(tableColumn);
             }
@@ -115,46 +113,15 @@ namespace RichTextEditor
             TableRowGroup rowGroup = new TableRowGroup();
             for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
             {
-                TableRow row = BuildTableRow(columnCount, borderBrush, borderThickness, dLineHeight, rowIndex);
+                TableRow row = BuildTableRow(columnCount, borderBrush, borderThickness, dLineHeight);
                 rowGroup.Rows.Add(row);
             }
             table.RowGroups.Add(rowGroup);
             return table;
         }
 
-        //private static void TableColumn_IsMouseDirectlyOverChanged(object sender, DependencyPropertyChangedEventArgs e)
-        //{
-        //    TableColumn table = sender as TableColumn;
-        //    if (null != table)
-        //    {
-        //        //TableDragHandle.LastEnteredObjectTable = sender as Table;
-
-
-        //        //  table.BorderBrush = new SolidColorBrush(Colors.Red);
-        //        table.Cursor = newCursor;
-        //    }
-        //}
-
-        //private static void TableColumn_GotMouseCapture(object sender, MouseEventArgs e)
-        //{
-        //    TableColumn table = sender as TableColumn;
-        //    if (null != table)
-        //    {
-        //        //TableDragHandle.LastEnteredObjectTable = sender as Table;
-
-
-        //      //  table.BorderBrush = new SolidColorBrush(Colors.Red);
-        //        table.Cursor = newCursor;
-        //    }
-        //}
-
         public static void table_MouseLeave(object sender, MouseEventArgs e)
         {
-            //Table table = sender as Table;
-            //if (null != table)
-            //{
-            //    table.BorderBrush = new SolidColorBrush(Colors.Black);
-            //}
             //Debug.WriteLine("table_MouseLeave");
             //if(null != TableDragHandle.LastEnteredObjectTable)
             //{
@@ -172,93 +139,22 @@ namespace RichTextEditor
             if (null != table)
             {
                 TableDragHandle.LastEnteredObjectTable = sender as Table;
-
-
-              //  table.BorderBrush = new SolidColorBrush(Colors.Red);
-              //  table.Cursor = newCursor;
             }
         }
-
-
-        //[DllImport("User32.dll", CharSet = CharSet.Ansi, BestFitMapping = false, ThrowOnUnmappableChar = true)]
-        //private static extern IntPtr LoadCursorFromFile(String str);
-
-        //public static Cursor LoadCursorFromResource(string resourceName)
-        //{
-        //    Stream cursorStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
-
-        //    // Write a temp file here with the data in cursorStream
-
-        //    Cursor result = new Cursor(LoadCursorFromFile(tempFile));
-        //    File.Delete(tempFile);
-
-        //    return result.
-        //}
-
-        public static void SelectColumn(TableCell sender)
-        {
-            //if (null != TableDragHandle.LastEnteredObjectTable)
-            //{
-                try
-                {
-                    TableCell tableCell = sender as TableCell;
-                    if (null == tableCell )
-                    {
-                        return;
-                    }
-                    TableRow tableRow = tableCell.Parent as TableRow;
-                    if (null == tableRow)
-                    {
-                        return;
-                    }
-
-                    TableRowGroup tableRowGroup = tableRow.Parent as TableRowGroup;
-                    if (tableRowGroup == null)
-                    {
-                        return;
-                    }
-                    //Table table = (Table)tableRowGroup.Parent;
-
-                    int rowIndex = tableRowGroup.Rows.IndexOf(tableRow);
-                    int columnIndex = tableRow.Cells.IndexOf(tableCell);
-
-                if (rowIndex == 0)
-                {
-                    tableCell.Cursor = newCursor;
-                    // Point q = Mouse.GetPosition(tableCell);
-                    //var pt = System.Windows.Forms.Cursor.Position;
-                    //pt.Y = pt.Y - 20;
-
-                    //System.Windows.Forms.Cursor.Position = pt;
-                    //Mouse.OverrideCursor = newCursor;
-                }
-                    
-                }
-                catch (Exception ex)
-                { }
-            //}
-        }
-
-        //[DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        //public static extern bool SetCaretPos(int x, int y);
 
         public static void cell_MouseEnter(object sender, MouseEventArgs e)
-
         {
-            
             TableCell tableCell = sender as TableCell;
-          SelectColumn(tableCell);
             //Debug.WriteLine("cell_MouseEnter dirOver: " + tableCell.IsMouseDirectlyOver + ", "+ e.GetPosition(tableCell).X + " " + e.GetPosition(tableCell).Y);
-            if (null != tableCell )
+            if (null != tableCell && tableCell.IsMouseDirectlyOver)
             {
                 //Point point = e.GetPosition(tableCell);
-                if(tableCell.IsMouseDirectlyOver)
-                    tableCell.Cursor = Cursors.SizeWE;
-                //else
-                //    tableCell.Cursor = Cursors.IBeam;
+
+                tableCell.Cursor = Cursors.IBeam;
+                // tableCell.Cursor
             }
         }
-        
+
         public static void cell_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (null != TableDragHandle.LastEnteredObjectTable)
@@ -268,27 +164,19 @@ namespace RichTextEditor
                 TableCell tableCell = sender as TableCell;
                 if (null != tableCell)
                 {
-                    
-                   tableCell.Focus();
-                   // tableCell.Cursor = Cursors.Arrow;
+                    tableCell.Focus();
+                    tableCell.Cursor = Cursors.Arrow;
                 }
-            }
-            else
-            {
-
             }
         }
 
         public static void cell_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
-            TableCell tableCell = sender as TableCell;
-
             if (null != TableDragHandle.LastEnteredObjectTable)
             {
                 try
                 {
-                    
+                    TableCell tableCell = sender as TableCell;
                     if (null == tableCell || Cursors.SizeWE != tableCell.Cursor)
                     {
                         return;
@@ -315,7 +203,6 @@ namespace RichTextEditor
                     Debug.WriteLine("### Exception: " + ex);
                 }
             }
-            
         }
 
         public static void cell_MouseMove(object sender, MouseEventArgs e)
@@ -346,27 +233,14 @@ namespace RichTextEditor
         internal static TableRow BuildTableRow(int columnCount,
                                                Brush borderBrush,
                                                Thickness borderThickness,
-                                                double dLineHeight, int rowIndex = -1)
+                                                double dLineHeight)
         {
             TableRow row = new TableRow();
 
-            
-
+            //row.KeyDown += new KeyEventHandler(cell_KeyUp);
             for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
             {
                 TableCell cell = BuildTableCell(borderBrush, borderThickness, dLineHeight);
-
-                if(rowIndex == 0)
-                {
-                    cell.Background = Brushes.LightGray;
-                    cell.LineHeight = 30;
-                    cell.TextAlignment = TextAlignment.Center;
-                    //cell.
-                    //TextEffect tfe = new TextEffect();
-                    //tfe.ali
-                    //cell.TextEffects
-
-                }
                 row.Cells.Add(cell);
             }
 
@@ -380,78 +254,50 @@ namespace RichTextEditor
             TableCell cell = new TableCell(new Paragraph());
             cell.BorderBrush = borderBrush;
             cell.BorderThickness = borderThickness;
-            //cell.LineHeight = dLineHeight;
+            // cell.Background = Brushes.Red;
             cell.MouseLeftButtonDown += new MouseButtonEventHandler(cell_MouseLeftButtonDown);
             cell.MouseLeftButtonUp += new MouseButtonEventHandler(cell_MouseLeftButtonUp);
             cell.MouseMove += new MouseEventHandler(cell_MouseMove);
             cell.MouseEnter += new MouseEventHandler(cell_MouseEnter);
-            cell.MouseDown += Cell_MouseDown;
+            //cell.
+            //cell.MouseDown += Cell_MouseDown;
+            //cell.KeyDown += new KeyEventHandler(Cell_KeyDown);
+            //cell.CommandBindings.Add(new CommandBinding(HotKeyTab, TabCommandExecuted));
+            //HotKeyTab.InputGestures.Add(new KeyGesture(Key.Tab));
+            //cell.KeyDown += new KeyEventHandler(cell_KeyUp);
+            cell.TextAlignment = TextAlignment.Center;
+            //cell.IsKeyboardFocusWithinChanged += Cell_IsKeyboardFocusWithinChanged;
             return cell;
         }
 
-        private static void Cell_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            TableCell tableCell = sender as TableCell;
+        //public static void Cell_KeyDown(object sender, KeyEventArgs e)
+        //{
+        //    MessageBox.Show("keyboard");
+        //}
 
-                if (tableCell.Cursor == newCursor)
-                {
+        //private static void Cell_MouseDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    MessageBox.Show("keyboard");
+        //}
 
-                    TableRow tableRow = tableCell.Parent as TableRow;
-                    if (null == tableRow)
-                    {
-                        return;
-                    }
+        //private static void Cell_IsKeyboardFocusWithinChanged(object sender, DependencyPropertyChangedEventArgs e)
+        //{
+        //    MessageBox.Show("keyboard");
+        //}
 
-                    TableRowGroup tableRowGroup = tableRow.Parent as TableRowGroup;
-                    if (tableRowGroup == null)
-                    {
-                        return;
-                    }
-                    //Table table = (Table)tableRowGroup.Parent;
-
-                    int rowIndex = tableRowGroup.Rows.IndexOf(tableRow);
-                    int columnIndex = tableRow.Cells.IndexOf(tableCell);
-
-                Table table = (Table)tableRowGroup.Parent;
-
-                RichTextBox richTextBox = ((table.Parent as FlowDocument)?.DataContext as RichTextEditor)?.richControl;
+        //private static void TabCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        //{
+        //    MessageBox.Show("tab");
+        //}
 
 
-                TextPointer start = null;
-                TextPointer end = null;
-
-                foreach (TableRow row in tableRowGroup.Rows)
-                    {
-                    ///   row.Cells[columnIndex].TextAlignment = TextAlignment.Center;
-
-                    if(start == null)
-                        start = row.Cells[columnIndex].ElementStart;
-
-                    end = row.Cells[columnIndex].ElementEnd;
-
-                    //             var range = new TextRange(start, end);
-
-                    //              if(!string.IsNullOrEmpty(range.Text))
-                    //              range.ApplyPropertyValue(
-                    //TextElement.BackgroundProperty,
-                    //new SolidColorBrush(Colors.Aquamarine));
-                    
-
-                    
-                    // TableCell newTableCell = Helper.BuildTableCell(tableCell.BorderBrush, tableCell.BorderThickness, double.NaN);
-                    // row.Cells.Insert(columnIndex + 1, newTableCell);
-                }
-                var textRange = richTextBox?.Selection;
-
-                if (end != null)
-                {
-                    textRange?.Select(start, end);
-                }
-
-                e.Handled = true;
-            }
-            
-        }
+        //public static void cell_KeyUp(object sender, KeyEventArgs e)
+        //{
+        //    if (e.Key == Key.Tab)
+        //    {
+        //        MessageBox.Show("tab");
+        //    }
+        //}
 
         internal static bool HasAncestor(TextPointer position, Type ancestorType)
         {
@@ -619,4 +465,18 @@ namespace RichTextEditor
             return columnNumber;
         }
     }
+
+
+    //public class MyCell : TableCell
+    //    {
+    //    public MyCell(Block blockItem) : base(blockItem)
+    //    {
+    //    }
+
+    //    protected override void OnIsKeyboardFocusedChanged(DependencyPropertyChangedEventArgs e)
+    //    {
+    //        base.OnIsKeyboardFocusedChanged(e);
+    //    }
+
+    //}
 }

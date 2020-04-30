@@ -56,10 +56,11 @@
                                  CategoryName="Format"
                                  EditWidth="{Binding RelativeSource={RelativeSource Self}, Path=(dx:ThemeManager.TreeWalker), Converter={local:EditWidthConverter EditWidth=150}}"
                                  ClosePopupOnChangingEditValue="True"
+                                 
                                  Description="Changes the font family of the selected text."
                                  EditValue="{Binding ElementName=richControl, Path=SelectionFontFamily, Mode=TwoWay}">
                     <dxb:BarEditItem.EditSettings>
-                        <dxe:FontEditSettings AutoComplete="True" ValidateOnTextInput="False" FlowDirection="RightToLeft"/>
+                        <dxe:FontEditSettings AutoComplete="True"  ValidateOnTextInput="False" FlowDirection="RightToLeft"/>
                     </dxb:BarEditItem.EditSettings>
                 </dxb:BarEditItem>
                 <dxb:BarEditItem Name="eFontSize"
@@ -369,10 +370,12 @@
                 </Style>
             </RichTextBox.Resources>
         </RichTextBox>-->
-
+            <!--Block.LineHeight="3"-->
 
             <utils:RichControl 
+                
                 x:Name="richControl" 
+                
                 VerticalAlignment="Stretch"
                 VerticalContentAlignment="Stretch"
                 HorizontalAlignment="Stretch"
@@ -383,7 +386,7 @@
                 AcceptsTab="True" AcceptsReturn="True"
 				HorizontalScrollBarVisibility="Auto" 
                 VerticalScrollBarVisibility="Auto"
-                Padding="0"
+                Padding="0" MouseMove="RichControl_MouseMove"
                 />
 
 

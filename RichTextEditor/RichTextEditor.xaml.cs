@@ -16,6 +16,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Globalization;
+using Utils;
+
 
 namespace RichTextEditor
 {
@@ -31,6 +34,34 @@ namespace RichTextEditor
         public static bool bDisableTextChange { get; private set; } = false;
 
         public IEnumerable<double?> FontSizes { get; protected set; }
+        #endregion
+
+        #region BindableProperties
+
+        #region RelatedToFont
+
+        
+        
+        //public new FontFamily FontFamily
+        //{
+        //    get { return (FontFamily)GetValue(FontFamilyProperty); }
+        //    set { SetValue(FontFamilyProperty, value); }
+        //}
+
+        //// Using a DependencyProperty as the backing store for FontFamily.  This enables animation, styling, binding, etc...
+        //public  new static readonly DependencyProperty FontFamilyProperty =
+        //    DependencyProperty.Register("FontFamily", typeof(FontFamily), typeof(RichTextEditor), new PropertyMetadata(true, new PropertyChangedCallback(OnFontPropertyChanged)));
+
+        //private static void OnFontPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        //{
+        //    var control = (RichTextEditor)d;
+
+        //    control.richControl.FontFamily = (FontFamily)e.NewValue;
+        //}
+
+
+
+      
         #endregion
 
         #region RelatedToData
@@ -149,8 +180,11 @@ namespace RichTextEditor
             }
         }
 
+          
+        
         #endregion
 
+        #endregion
         public RichTextEditor()
         {
             FontSizes = new double?[] {null, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 22, 24, 26, 28, 30,
@@ -159,9 +193,36 @@ namespace RichTextEditor
 
             InitializeComponent();
 
+           // richControl.fon = new Font("Tahoma", 12, FontStyle.Bold);
+
+            FontFamily = new FontFamily("Arial");
+            FontSize = 12 * 1.3333334;
+
+
+
             Loaded += OnModuleLoaded;
 
             this.DataContext = this;
+
+            var lang = System.Windows.Forms.InputLanguage.InstalledInputLanguages;
+            System.Windows.Forms.InputLanguage inputLang = null;
+
+            foreach (System.Windows.Forms.InputLanguage item in lang)
+            {
+                if(item.Culture.Name.Contains("ar"))
+                {
+                    inputLang = item;
+                    break;
+                }
+            }
+
+            if(inputLang != null)
+
+                    System.Windows.Forms.InputLanguage.CurrentInputLanguage = inputLang;
+
+            
+
+           
         }
 
         //#region |Commands|
@@ -178,11 +239,50 @@ namespace RichTextEditor
         void OnModuleLoaded(object sender, RoutedEventArgs e)
         {
                 
-                richControl.SetFocus();
             
+
+                richControl.SetFocus();
+
+           // FontSize = FontSize * 1.3333334;
+
+
         }
 
-        
+        private void RichControl_MouseMove(object sender, MouseEventArgs e)
+        {
+            RichTextBox richTextBox = (sender as RichControl);
+
+           var tables= richTextBox?.Document?.Blocks?.Where(x => x is Table)?.ToList();
+
+            //if(Mouse.Cursor == newCursor)
+
+
+
+            //if (tables != null)
+            //{
+            //    foreach (var table in tables)
+            //    {
+            //        if (table.ro)
+            //        //table.hit
+            //        {
+            //            //    Point p = e.GetPosition(this);
+            //            //    Point q = Mouse.GetPosition(table);
+
+            //            table.Cursor = Helper.newCursor;
+
+            //            //Console.WriteLine("p x:{0} y:{1}", p.X, p.Y);
+            //            //Console.WriteLine("q x:{0} y:{1}", q.X, q.Y);
+            //        }
+            //    }
+            //}
+
+
+        }
+
+        //private void RichControl_MouseEnte(object sender, MouseEventArgs e)
+        //{
+
+        //}
     }
 
     public class EditWidthConverter : MarkupExtension, IValueConverter

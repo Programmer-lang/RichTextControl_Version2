@@ -292,7 +292,7 @@ namespace Utils {
             IncreaseFontSizeCommand = new DelegateCommand(IncreaseFontSizeCommandExecute, CanIncreaseFontSizeCommandExecute);
             DecreaseFontSizeCommand = new DelegateCommand(DecreaseFontSizeCommandExecute, CanDecreaseFontSizeCommandExecute);
 
-
+            
 
 
 
@@ -302,17 +302,30 @@ namespace Utils {
             CutCommand = ApplicationCommands.Cut;
             SelectAllCommand = ApplicationCommands.SelectAll;
 
-          //  FlowDirection = FlowDirection.LeftToRight;
+            //SetValue(Paragraph.LineHeight, 3.0);
 
-           // ReadingDirectionCore = FlowDirection.RightToLeft;
+            //  FlowDirection = FlowDirection.LeftToRight;
+
+            // ReadingDirectionCore = FlowDirection.RightToLeft;
             //TextAlignmentCore = TextAlignment.Right;
 
             //IsRightToLeft = true;
 
             //IsRightAlignment = true;
+            Paragraph p = Document.Blocks.FirstBlock as Paragraph;
+            p.LineHeight = 10;
+
+            //TextPointer myTextPointer1 = Document.ContentStart;
+            //TextPointer myTextPointer2 = Document.ContentEnd;
+
+            ////// Programmatically change the selection in the RichTextBox.  
+            //Selection.Select(myTextPointer1, myTextPointer2);
+
+            //SetFocus();
 
         }
-        
+
+
         public void SetFocus() {
             this.Focus();
             UpdateSelectionProperties();
@@ -323,8 +336,27 @@ namespace Utils {
         protected void OnIsBoldChanged() { if(!IsUpdating) IsBoldCore = IsBold; }
         protected void OnIsItalicChanged() { if(!IsUpdating) IsItalicCore = IsItalic; }
         protected void OnIsUnderlineChanged() { if(!IsUpdating) IsUnderlineCore = IsUnderline; }
-        protected void OnSelectionFontFamilyChanged() { if(!IsUpdating) SelectionFontFamilyCore = SelectionFontFamily; }
-        protected void OnSelectionFontSizeChanged() { if(!IsUpdating) SelectionFontSizeCore = SelectionFontSize; }
+        protected void OnSelectionFontFamilyChanged()
+        {
+            if (!IsUpdating)
+            {
+
+                this.Focus();
+
+                SelectionFontFamilyCore = SelectionFontFamily;
+                
+
+            }
+        }
+        protected void OnSelectionFontSizeChanged()
+        {
+            if (!IsUpdating)
+            {
+                this.Focus();
+                SelectionFontSizeCore = SelectionFontSize;
+
+            }
+        }
         protected void OnSelectionTextBackgroundColorChanged() { if(!IsUpdating) SelectionTextBackgroundColorCore = SelectionTextBackgroundColor; }
         protected void OnSelectionTextColorChanged() { if(!IsUpdating) SelectionTextColorCore = SelectionTextColor; }
         protected void OnIsRightAlignmentChanged() {
@@ -776,7 +808,7 @@ namespace Utils {
             return new DXOpenFileDialog()
             {
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                Filter = "Rich Text Format (*.rtf,*doc,*.docx)|*.rtf;*doc;*.docx",
+                Filter = "Rich Text Format (*.rtf,*.docx)|*.rtf;*.docx",
                 Title = "Choose file",
                 Multiselect = false,
             };
@@ -804,6 +836,7 @@ namespace Utils {
                     dc.Save(outMs, new RtfSaveOptions());
 
                     textRange.Load(outMs, DataFormats.Rtf);
+
 
                 }
             }
@@ -869,12 +902,43 @@ namespace Utils {
                     var saveDialog = GetSaveDialog();
                     if (saveDialog.ShowDialog().Value)
                     {
-                       // var file = saveDialog.FileName;
+                    // var file = saveDialog.FileName;
 
-                        TextRange t = new TextRange(Document.ContentStart, Document.ContentEnd);
+                    foreach (Block p in Document.Blocks)
+                    {
+                        if (p is Paragraph)
+                        {
+                            p.LineHeight = 25;
+                        }
+                        else
+                        {
+                            if (p is Table)
+                            {
+                                p.FlowDirection = FlowDirection.RightToLeft;
+                                p.TextAlignment = TextAlignment.Right;
+                            }
+                        }
+                    }
+                   // SetValue(Paragraph.LineHeightProperty, 1.5);
+
+                    TextRange t = new TextRange(Document.ContentStart, Document.ContentEnd);
                     FileStream file = new FileStream(saveDialog.FileName, FileMode.Create);
                     t.Save(file, System.Windows.DataFormats.Rtf);
                     file.Close();
+
+                    // SetValue(Paragraph.LineHeightProperty, 1.0);
+
+                    //Paragraph p = Document.Blocks.FirstBlock as Paragraph;
+                    //p.LineHeight = 10;
+
+                    foreach (Block p in Document.Blocks)
+                    {
+                        if (p is Paragraph)
+                        {
+
+                            p.LineHeight = 10;
+                        }
+                    }
                 }
             }
             catch (Exception)
@@ -947,31 +1011,59 @@ namespace Utils {
         #region core properties
         public string SelectionFontFamilyCore {
             get {
-                object value = Selection.GetPropertyValue(Run.FontFamilyProperty);
-                return (value == DependencyProperty.UnsetValue) ? string.Empty : value.ToString();
+
+                
+
+                object value = Selection.GetPropertyValue(Paragraph.FontFamilyProperty);
+
+                if (value == DependencyProperty.UnsetValue)
+                    return string.Empty;
+                else
+                {
+                    //if (!IsUpdating)
+                    //{
+                    //    if (SelectionFontFamily != null && value != SelectionFontFamily)
+                    //        try
+                    //        {
+                    //            Selection.ApplyPropertyValue(TextElement.FontFamilyProperty, SelectionFontFamily);
+
+                    //        }
+                    //        catch { }
+
+                    //    return SelectionFontFamily;
+                    //}
+
+                    return value.ToString();
+                }
             }
             set {
                 if(value == null || value == SelectionFontFamilyCore) return;
                 try {
                     if(value is string)
-                        Selection.ApplyPropertyValue(Run.FontFamilyProperty, new FontFamily(value));
+                        Selection.ApplyPropertyValue(Paragraph.FontFamilyProperty, new FontFamily(value));
                     else
-                        Selection.ApplyPropertyValue(Run.FontFamilyProperty, value);
+                        Selection.ApplyPropertyValue(Paragraph.FontFamilyProperty, value);
                 } catch { }
             }
         }
         public double? SelectionFontSizeCore {
             get {
-                object value = Selection.GetPropertyValue(Run.FontSizeProperty);
-                if(value == DependencyProperty.UnsetValue)
+                object value = Selection.GetPropertyValue(TextElement.FontSizeProperty);
+                if(value == DependencyProperty.UnsetValue || value == null)
                     return null;
-                return (double?)value;
+                else
+                {
+
+                   return Math.Round((double)value / 1.3333334, 2);
+
+                }
+                
             }
             set {
                 if(value == null || value.Equals(SelectionFontSizeCore))
                     return;
 
-                Selection.ApplyPropertyValue(Run.FontSizeProperty, Convert.ToDouble(value));
+                Selection.ApplyPropertyValue(TextElement.FontSizeProperty, Convert.ToDouble(value)* 1.3333334);
             }
         }
         public Color SelectionTextColorCore {

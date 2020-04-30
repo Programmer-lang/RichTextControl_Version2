@@ -11,16 +11,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.ComponentModel;
 using System.Diagnostics;
+using Utilis;
 
 namespace Adastra.RichEditorLibrary
 {
-    public enum TableType
-    {
-        Undefined,
-        NoneBorder,
-        BoxBorder,
-        FullBorder
-    }
+    //public enum TableType
+    //{
+    //    Undefined,
+    //    NoneBorder,
+    //    BoxBorder,
+    //    FullBorder
+    //}
 
     /// <summary>
     /// Interaction logic for TablePropertiesDialog.xaml

@@ -6,7 +6,7 @@ using System.Windows.Documents;
 using System.Windows;
 using System.Diagnostics;
 
-namespace Adastra.RichEditorLibrary
+namespace RichTextEditor.Utilis
 {
     internal static class TableDragHandle
     {
